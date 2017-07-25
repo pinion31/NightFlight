@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 //import {Yelp as yelp} from 'yelp-fusion';
 //const yelp = require('yelp-fusion');
+import {Row, Col, Button, FormGroup, FormControl, Alert} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 class YelpList extends Component {
@@ -8,23 +9,24 @@ class YelpList extends Component {
     super(props);
     this.state = {
       barList:[],
+      query:"",
     };
 
     this.retrieveSearchData = this.retrieveSearchData.bind(this);
+    this.setQuery = this.setQuery.bind(this);
   }
 
   componentDidMount() {
-    this.retrieveSearchData();
+    //this.retrieveSearchData();
   }
 
   retrieveSearchData() {
     fetch('/list', {
-      method: 'GET',
+      method: 'POST',
       headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query:this.state.query}),
     }).then (res => {
         res.json().then(result => {
-            console.dir(result);
-            console.log(typeof result);
             this.setState({
               barList: JSON.parse(result),
             });
@@ -32,26 +34,37 @@ class YelpList extends Component {
         });
 
     });
+  }
 
+  setQuery(e) {
+    this.setState({
+      query:e.target.value,
+    });
 
-
-/*
-    yelp.accessToken(clientId, clientSecret).then(response => {
-      const client = yelp.client(response.jsonBody.access_token);
-
-      client.search(searchRequest).then(response => {
-        const firstResult = response.jsonBody.businesses[0];
-        const prettyJson = JSON.stringify(firstResult, null, 4);
-        console.log(prettyJson);
-        });
-    }).catch(e => {
-      console.log(e);
-    });*/
   }
 
   render() {
     return (
     <div>
+    <Row>
+      <Col md={6} mdOffset={3} sm={6} smOffset={3} xs={6} xsOffset={3} lg={6} lgOffset={3}>
+        <FormGroup>
+          <FormControl
+            name='query'
+            type='text'
+            placeholder='city,state'
+            onChange={this.setQuery}
+            maxLength='47'
+          />
+        </FormGroup>
+      </Col>
+    </Row>
+    <Row>
+      <Col md={6} mdOffset={3} sm={6} smOffset={3} xs={6} xsOffset={3} lg={6} lgOffset={3}>
+        <Button bsStyle='primary' onClick={this.retrieveSearchData}>Submit</Button>
+      </Col>
+    </Row>
+    <Row>
     {this.state.barList.map((result,key) => {
         return (
           <div key={key}>
@@ -63,6 +76,7 @@ class YelpList extends Component {
 
      })
     }
+    </Row>
     </div>
     );
   }
@@ -71,6 +85,7 @@ class YelpList extends Component {
 
 YelpList.propTypes =  {
   resultList:React.PropTypes.array,
+  query:React.PropTypes.string
 };
 
 export default YelpList

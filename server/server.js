@@ -10,10 +10,7 @@ const yelp = require('yelp-fusion');
 const clientId = process.env.CLIENT_ID_YELP;
 const clientSecret = process.env.CLIENT_KEY_YELP;
 
-const searchRequest = {
-  term:'nightlife',
-  location: 'austin, tx'
-};
+
 
 
 
@@ -22,10 +19,17 @@ const app = express();
 app.use(express.static('static'));
 app.use(bodyParser.json());
 
-app.get('/list', (req, res) => {
+app.post('/list', (req, res) => {
+  console.log('getting');
+  console.dir(req.body.query);
 
   yelp.accessToken(clientId, clientSecret).then(response => {
   const client = yelp.client(response.jsonBody.access_token);
+
+  const searchRequest = {
+    term:'nightlife',
+    location: req.body.query,
+  };
 
   client.search(searchRequest).then(response => {
     //const results = response.jsonBody.businesses[0];
@@ -36,10 +40,11 @@ app.get('/list', (req, res) => {
   }).catch(e => {
     console.log(e);
   });
+});
 
+app.get('*', (req, res) => {
+    res.send('no match');
   });
-
-
 app.listen(3000, () => {
   console.log('App started on port 3000');
 
