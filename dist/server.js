@@ -2,10 +2,6 @@
 
 require('babel-polyfill');
 
-var _sourceMapSupport = require('source-map-support');
-
-var _sourceMapSupport2 = _interopRequireDefault(_sourceMapSupport);
-
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -17,17 +13,13 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mongoose = require('mongoose');
+var yelp = require('yelp-fusion');
+
 mongoose.connect('mongodb://localhost/nightflight');
 mongoose.Promise = global.Promise;
 
-var yelp = require('yelp-fusion');
-
 var clientId = process.env.CLIENT_ID_YELP;
 var clientSecret = process.env.CLIENT_KEY_YELP;
-
-var idAssigner = mongoose.Schema({
-  counter: Number
-});
 
 var clubSchema = mongoose.Schema({
   id: String,
@@ -44,7 +36,6 @@ var userSchema = mongoose.Schema({
 
 var Clubber = mongoose.model('user', userSchema);
 var Club = mongoose.model('club', clubSchema);
-var Counter = mongoose.model('counter', idAssigner);
 
 var serverClubList = [];
 
@@ -54,7 +45,6 @@ app.use(_express2.default.static('static'));
 app.use(_bodyParser2.default.json());
 
 app.post('/list', function (req, res) {
-
   yelp.accessToken(clientId, clientSecret).then(function (response) {
     var client = yelp.client(response.jsonBody.access_token);
 
@@ -65,7 +55,6 @@ app.post('/list', function (req, res) {
 
     client.search(searchRequest).then(function (response) {
       var results = response.jsonBody.businesses;
-      var dbData = Array.from(response.jsonBody.businesses);
       serverClubList = [];
 
       results.forEach(function (club) {
@@ -79,42 +68,38 @@ app.post('/list', function (req, res) {
             name: club.name,
             occupants: [],
             image_url: club.image_url,
-            goingMessage: '0 GOING'
+            goingMessage: '0 GOING',
+            RSVPmessage: 'RSVP'
           };
 
           if (result) {
             // if club already exists in db
             clubResult.occupants = result.occupants;
             clubResult.goingMessage = result.occupants.length + ' GOING';
-
+            // checks and  indicates if user is already going to this club
             result.occupants.forEach(function (occ) {
-              //checks and  indicates if user is already going to this club
               if (occ === req.body.name) {
                 clubResult.goingMessage = result.occupants.length + ' GOING - YOU\'RE GOING TO THIS CLUB TONIGHT!';
+                clubResult.RSVPmessage = 'unRSVP';
               }
             });
           } else {
-            //create new Club entry if does not exist in db
+            // create new Club entry if does not exist in db
             var newClub = new Club({
               id: club.id,
               name: club.name,
               occupants: [],
-              goingMessage: '0 GOING'
-
+              goingMessage: '0 GOING',
+              RSVPmessage: 'RSVP'
             });
 
-            //save new Club entry
-            newClub.save(function (err, club) {
-              if (err) {
-                console.log('error!');
-                console.dir(err);
-              }
+            // save new Club entry
+            newClub.save(function (err) {
+              if (err) return err;
             });
           }
 
           serverClubList.push(clubResult);
-
-          // console.log(`length = ${serverClubList.length}`);
 
           if (serverClubList.length === results.length) {
             res.json(JSON.stringify(serverClubList));
@@ -127,32 +112,39 @@ app.post('/list', function (req, res) {
   });
 });
 
+// this url doubles as removeSelf too - user can toggle adding self and removing self
 app.post('/addSelf', function (req, res) {
   serverClubList.forEach(function (club) {
     if (club.id === req.body.id) {
-      // finds matching club to add user
+      // finds corresponding club to add or remove user from
       var userAlreadyRSVPd = false;
 
-      //
-      club.occupants.forEach(function (user) {
+      club.occupants = club.occupants.filter(function (user) {
+        // checks if user has already RSVP'ed--if so, removes user from occupant list
         if (user === req.body.username) {
-          //checks if user has already RSVP'ed
           userAlreadyRSVPd = true;
+          // resets goingMessage to one less occupant after user removal
+          club.goingMessage = club.occupants.length - 1 + ' GOING';
+          club.RSVPmessage = 'RSVP'; // resets RSVP button from unRSVP to RSVP
+        } else {
+          return user;
         }
       });
 
       if (!userAlreadyRSVPd) {
-        //if user has not already RSVP'd, add user as going
+        // if user has not already RSVP'd, add user as going
         club.occupants.push(req.body.username);
         club.goingMessage = club.occupants.length + ' GOING - YOU\'RE GOING TO THIS CLUB TONIGHT!';
-        Club.findOneAndUpdate({ id: club.id }, {
-          occupants: club.occupants,
-          goingMessage: club.goingMessage }, function (err) {
-          if (err) return err;
-        });
-      } else {
-        //TODO: send back message -'You've already rsvp'ed'
+        club.RSVPmessage = 'unRSVP';
       }
+
+      // updates occupant list in DB
+      Club.findOneAndUpdate({ id: club.id }, {
+        occupants: club.occupants,
+        goingMessage: club.goingMessage,
+        RSVPmessage: club.RSVPmessage }, function (err) {
+        if (err) return err;
+      });
     }
   });
 
@@ -162,6 +154,7 @@ app.post('/addSelf', function (req, res) {
 app.get('*', function (req, res) {
   res.send('no match');
 });
+
 app.listen(3000, function () {
   console.log('App started on port 3000');
 });

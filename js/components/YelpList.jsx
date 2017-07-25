@@ -83,10 +83,10 @@ class YelpList extends Component {
     {this.state.barList.map((result,key) => {
         return (
           <div key={key}>
-            <img src={result.image_url} alt={result.name} style={{width:'304px', height:'228px'}}/>
+            <img src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}}/>
             <p>{result.name}</p>
             <p>{result.goingMessage}</p>
-            <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{`RSVP`}</Button>
+            <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{result.RSVPmessage}</Button>
           </div>
         );
 

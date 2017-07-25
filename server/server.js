@@ -1,21 +1,16 @@
-'use strict';
 
 import 'babel-polyfill';
-import SourceMapSupport from 'source-map-support';
 import express from 'express';
 import bodyParser from 'body-parser';
+
 const mongoose = require('mongoose');
+const yelp = require('yelp-fusion');
+
 mongoose.connect('mongodb://localhost/nightflight');
 mongoose.Promise = global.Promise;
 
-const yelp = require('yelp-fusion');
-
 const clientId = process.env.CLIENT_ID_YELP;
 const clientSecret = process.env.CLIENT_KEY_YELP;
-
-const idAssigner = mongoose.Schema({
-  counter:Number,
-});
 
 const clubSchema = mongoose.Schema({
   id: String,
@@ -32,7 +27,6 @@ const userSchema = mongoose.Schema({
 
 const Clubber = mongoose.model('user', userSchema);
 const Club = mongoose.model('club', clubSchema);
-const Counter = mongoose.model('counter', idAssigner);
 
 let serverClubList = [];
 
@@ -42,119 +36,111 @@ app.use(express.static('static'));
 app.use(bodyParser.json());
 
 app.post('/list', (req, res) => {
+  yelp.accessToken(clientId, clientSecret).then((response) => {
+    const client = yelp.client(response.jsonBody.access_token);
 
-  yelp.accessToken(clientId, clientSecret).then(response => {
-  const client = yelp.client(response.jsonBody.access_token);
+    const searchRequest = {
+      term: 'nightlife',
+      location: req.body.query,
+    };
 
-  const searchRequest = {
-    term:'nightlife',
-    location: req.body.query,
-  };
+    client.search(searchRequest).then((response) => {
+      const results = response.jsonBody.businesses;
+      serverClubList = [];
 
-  client.search(searchRequest).then(response => {
-    const results = response.jsonBody.businesses;
-    const dbData = Array.from(response.jsonBody.businesses);
-    serverClubList = [];
+      results.forEach((club) => {
+        Club.findOne({id: club.id}, (err, result) => {
+          if (err) { console.log(`error ${err}`); }
 
-
-
-    results.forEach(club => {
-      Club.findOne({id:club.id}, (err,result) => {
-        if (err) {console.log(`error ${err}`);}
-
-        const clubResult =  {
-              id: club.id,
-              name:club.name,
-              occupants:[],
-              image_url:club.image_url,
-              goingMessage: `0 GOING`
-            };
-
-        if (result) { // if club already exists in db
-            clubResult.occupants = result.occupants;
-            clubResult.goingMessage = `${result.occupants.length} GOING`;
-
-            result.occupants.forEach(occ => { //checks and  indicates if user is already going to this club
-              if (occ === req.body.name) {
-                clubResult.goingMessage = `${result.occupants.length} GOING - YOU'RE GOING TO THIS CLUB TONIGHT!`;
-              }
-            });
-
-        }
-        else {//create new Club entry if does not exist in db
-          const newClub = new Club({
+          const clubResult = {
             id: club.id,
             name: club.name,
             occupants: [],
-            goingMessage: `0 GOING`
+            image_url: club.image_url,
+            goingMessage: '0 GOING',
+            RSVPmessage: 'RSVP'
+          };
 
-          });
+          if (result) { // if club already exists in db
+            clubResult.occupants = result.occupants;
+            clubResult.goingMessage = `${result.occupants.length} GOING`;
+            // checks and  indicates if user is already going to this club
+            result.occupants.forEach((occ) => {
+              if (occ === req.body.name) {
+                clubResult.goingMessage = `${result.occupants.length} GOING - YOU'RE GOING TO THIS CLUB TONIGHT!`;
+                clubResult.RSVPmessage = 'unRSVP';
+              }
+            });
+          } else { // create new Club entry if does not exist in db
+            const newClub = new Club({
+              id: club.id,
+              name: club.name,
+              occupants: [],
+              goingMessage: '0 GOING',
+              RSVPmessage: 'RSVP'
+            });
 
-          //save new Club entry
-          newClub.save((err, club) => {
-            if (err) {
-               console.log('error!');
-               console.dir(err);
-            }
+            // save new Club entry
+            newClub.save((err) => {
+              if (err) return err;
+            });
+          }
 
-          });
+          serverClubList.push(clubResult);
 
-        }
-
-        serverClubList.push(clubResult);
-
-       // console.log(`length = ${serverClubList.length}`);
-
-        if (serverClubList.length === results.length) {
-          res.json(JSON.stringify(serverClubList));
-        }
-
+          if (serverClubList.length === results.length) {
+            res.json(JSON.stringify(serverClubList));
+          }
+        });
       });
     });
-  });
-}).catch(e => {
+  }).catch((e) => {
     console.log(e);
   });
 });
 
+// this url doubles as removeSelf too - user can toggle adding self and removing self
 app.post('/addSelf', (req, res) => {
-  serverClubList.forEach((club)=> {
-    if (club.id === req.body.id) { // finds matching club to add user
+  serverClubList.forEach((club) => {
+    if (club.id === req.body.id) { // finds corresponding club to add or remove user from
       let userAlreadyRSVPd = false;
 
-      //
-      club.occupants.forEach(user => {
-        if (user === req.body.username) { //checks if user has already RSVP'ed
+      club.occupants = club.occupants.filter((user) => {
+        // checks if user has already RSVP'ed--if so, removes user from occupant list
+        if (user === req.body.username) {
           userAlreadyRSVPd = true;
+          // resets goingMessage to one less occupant after user removal
+          club.goingMessage = `${club.occupants.length - 1} GOING`;
+          club.RSVPmessage = 'RSVP'; // resets RSVP button from unRSVP to RSVP
+        } else {
+          return user;
         }
       });
 
-      if (!userAlreadyRSVPd) { //if user has not already RSVP'd, add user as going
+      if (!userAlreadyRSVPd) { // if user has not already RSVP'd, add user as going
         club.occupants.push(req.body.username);
         club.goingMessage = `${club.occupants.length} GOING - YOU'RE GOING TO THIS CLUB TONIGHT!`;
-        Club.findOneAndUpdate({id:club.id}, {
-          occupants: club.occupants,
-          goingMessage: club.goingMessage,},
-          (err) => {
-          if (err) return err;
-           });
-
-      }
-      else {
-        //TODO: send back message -'You've already rsvp'ed'
+        club.RSVPmessage = 'unRSVP';
       }
 
+      // updates occupant list in DB
+      Club.findOneAndUpdate({id: club.id}, {
+        occupants: club.occupants,
+        goingMessage: club.goingMessage,
+        RSVPmessage: club.RSVPmessage},
+      (err) => {
+        if (err) return err;
+      });
     }
   });
 
   res.json(JSON.stringify(serverClubList));
-
 });
 
 app.get('*', (req, res) => {
-    res.send('no match');
-  });
+  res.send('no match');
+});
+
 app.listen(3000, () => {
   console.log('App started on port 3000');
-
 });
