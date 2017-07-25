@@ -30,7 +30,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015']
@@ -42,5 +42,8 @@ module.exports = {
         use:'css-loader!sass-loader'})
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx']
   }
 };

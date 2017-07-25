@@ -1,9 +1,13 @@
 import React from 'react';
 import 'babel-polyfill';
 import ReactDOM from 'react-dom';
+import {BrowserRouter} from 'react-router-dom';
+import RoutedApp from './components/RoutedApp';
 
 ReactDOM.render(
-  <h1> Hello World says NightFlight </h1>,
+  <BrowserRouter>
+    <RoutedApp/>
+  </BrowserRouter>,
   document.getElementById('app'),
 );
 
