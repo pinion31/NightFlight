@@ -34,7 +34,7 @@ const Clubber = mongoose.model('user', userSchema);
 const Club = mongoose.model('club', clubSchema);
 const Counter = mongoose.model('counter', idAssigner);
 
-
+let serverClubList = [];
 
 const app = express();
 
@@ -54,7 +54,7 @@ app.post('/list', (req, res) => {
   client.search(searchRequest).then(response => {
     const results = response.jsonBody.businesses;
     const dbData = Array.from(response.jsonBody.businesses);
-    const clubsToReturn = [];
+    serverClubList = [];
 
 
 
@@ -86,18 +86,17 @@ app.post('/list', (req, res) => {
                console.log('error!');
                console.dir(err);
             }
-            console.log('club saved');
+
           });
 
         }
 
-        clubsToReturn.push(clubResult);
+        serverClubList.push(clubResult);
 
-       // console.log(`length = ${clubsToReturn.length}`);
+       // console.log(`length = ${serverClubList.length}`);
 
-        if (clubsToReturn.length === results.length) {
-          console.dir(clubResult);
-          res.json(JSON.stringify(clubsToReturn));
+        if (serverClubList.length === results.length) {
+          res.json(JSON.stringify(serverClubList));
         }
 
       });
@@ -106,6 +105,36 @@ app.post('/list', (req, res) => {
 }).catch(e => {
     console.log(e);
   });
+});
+
+app.post('/addSelf', (req, res) => {
+  serverClubList.forEach((club)=> {
+    if (club.id === req.body.id) { // finds matching club to add user
+      let userAlreadyRSVPd = false;
+
+      //
+      club.occupants.forEach(user => {
+        if (user === req.body.username) { //checks if user has already RSVP'ed
+          userAlreadyRSVPd = true;
+        }
+      });
+
+      if (!userAlreadyRSVPd) { //if user has not already RSVP'd, add user as going
+        club.occupants.push(req.body.username);
+        Club.findOneAndUpdate({id:club.id}, {occupants: club.occupants}, (err,response) => {
+          if (err) return err;
+        });
+
+      }
+      else {
+        //TODO: send back message -'You've already rsvp'ed'
+      }
+
+    }
+  });
+
+  res.json(JSON.stringify(serverClubList));
+
 });
 
 app.get('*', (req, res) => {

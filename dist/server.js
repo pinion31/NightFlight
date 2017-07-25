@@ -46,6 +46,8 @@ var Clubber = mongoose.model('user', userSchema);
 var Club = mongoose.model('club', clubSchema);
 var Counter = mongoose.model('counter', idAssigner);
 
+var serverClubList = [];
+
 var app = (0, _express2.default)();
 
 app.use(_express2.default.static('static'));
@@ -64,7 +66,7 @@ app.post('/list', function (req, res) {
     client.search(searchRequest).then(function (response) {
       var results = response.jsonBody.businesses;
       var dbData = Array.from(response.jsonBody.businesses);
-      var clubsToReturn = [];
+      serverClubList = [];
 
       results.forEach(function (club) {
         Club.findOne({ id: club.id }, function (err, result) {
@@ -97,17 +99,15 @@ app.post('/list', function (req, res) {
                 console.log('error!');
                 console.dir(err);
               }
-              console.log('club saved');
             });
           }
 
-          clubsToReturn.push(clubResult);
+          serverClubList.push(clubResult);
 
-          // console.log(`length = ${clubsToReturn.length}`);
+          // console.log(`length = ${serverClubList.length}`);
 
-          if (clubsToReturn.length === results.length) {
-            console.dir(clubResult);
-            res.json(JSON.stringify(clubsToReturn));
+          if (serverClubList.length === results.length) {
+            res.json(JSON.stringify(serverClubList));
           }
         });
       });
@@ -115,6 +115,35 @@ app.post('/list', function (req, res) {
   }).catch(function (e) {
     console.log(e);
   });
+});
+
+app.post('/addSelf', function (req, res) {
+  serverClubList.forEach(function (club) {
+    if (club.id === req.body.id) {
+      // finds matching club to add user
+      var userAlreadyRSVPd = false;
+
+      //
+      club.occupants.forEach(function (user) {
+        if (user === req.body.username) {
+          //checks if user has already RSVP'ed
+          userAlreadyRSVPd = true;
+        }
+      });
+
+      if (!userAlreadyRSVPd) {
+        //if user has not already RSVP'd, add user as going
+        club.occupants.push(req.body.username);
+        Club.findOneAndUpdate({ id: club.id }, { occupants: club.occupants }, function (err, response) {
+          if (err) return err;
+        });
+      } else {
+        //TODO: send back message -'You've already rsvp'ed'
+      }
+    }
+  });
+
+  res.json(JSON.stringify(serverClubList));
 });
 
 app.get('*', function (req, res) {

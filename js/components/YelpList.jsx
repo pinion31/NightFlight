@@ -44,11 +44,11 @@ class YelpList extends Component {
 
   }
 
-  addSelf() {
+  addSelf(e) {
     fetch('/addSelf', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({name:'this user'}),
+      body: JSON.stringify({username:'this user', id:e.target.name}),
     }).then (res => {
         res.json().then(result => {
             this.setState({
@@ -85,8 +85,8 @@ class YelpList extends Component {
           <div key={key}>
             <img src={result.image_url} alt={result.name} style={{width:'304px', height:'228px'}}/>
             <p>{result.name}</p>
-            <p>{`${result.occupants.length} GOING`}</p>
-            <Button bsStyle='primary' onClick={this.addSelf}>{`RSVP`}</Button>
+            <p>{`${result.occupants? result.occupants.length:'0'} GOING`}</p>
+            <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{`RSVP`}</Button>
           </div>
         );
 
