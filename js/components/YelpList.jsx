@@ -25,7 +25,7 @@ class YelpList extends Component {
     fetch('/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({query:this.state.query}),
+      body: JSON.stringify({query:this.state.query, name:'this user'}),
     }).then (res => {
         res.json().then(result => {
             this.setState({
@@ -85,7 +85,7 @@ class YelpList extends Component {
           <div key={key}>
             <img src={result.image_url} alt={result.name} style={{width:'304px', height:'228px'}}/>
             <p>{result.name}</p>
-            <p>{`${result.occupants? result.occupants.length:'0'} GOING`}</p>
+            <p>{result.goingMessage}</p>
             <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{`RSVP`}</Button>
           </div>
         );
@@ -99,6 +99,7 @@ class YelpList extends Component {
 
 }
 
+//<p>{`${result.occupants? result.occupants.length:'0'} GOING`}</p>
 YelpList.propTypes =  {
   resultList:React.PropTypes.array,
   query:React.PropTypes.string

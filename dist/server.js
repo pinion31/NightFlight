@@ -78,18 +78,28 @@ app.post('/list', function (req, res) {
             id: club.id,
             name: club.name,
             occupants: [],
-            image_url: club.image_url
+            image_url: club.image_url,
+            goingMessage: '0 GOING'
           };
 
           if (result) {
             // if club already exists in db
             clubResult.occupants = result.occupants;
+            clubResult.goingMessage = result.occupants.length + ' GOING';
+
+            result.occupants.forEach(function (occ) {
+              //checks and  indicates if user is already going to this club
+              if (occ === req.body.name) {
+                clubResult.goingMessage = result.occupants.length + ' GOING - YOU\'RE GOING TO THIS CLUB TONIGHT!';
+              }
+            });
           } else {
             //create new Club entry if does not exist in db
             var newClub = new Club({
               id: club.id,
               name: club.name,
-              occupants: []
+              occupants: [],
+              goingMessage: '0 GOING'
 
             });
 
@@ -134,7 +144,10 @@ app.post('/addSelf', function (req, res) {
       if (!userAlreadyRSVPd) {
         //if user has not already RSVP'd, add user as going
         club.occupants.push(req.body.username);
-        Club.findOneAndUpdate({ id: club.id }, { occupants: club.occupants }, function (err, response) {
+        club.goingMessage = club.occupants.length + ' GOING - YOU\'RE GOING TO THIS CLUB TONIGHT!';
+        Club.findOneAndUpdate({ id: club.id }, {
+          occupants: club.occupants,
+          goingMessage: club.goingMessage }, function (err) {
           if (err) return err;
         });
       } else {
