@@ -14,6 +14,7 @@ class YelpList extends Component {
 
     this.retrieveSearchData = this.retrieveSearchData.bind(this);
     this.setQuery = this.setQuery.bind(this);
+    this.addSelf = this.addSelf.bind(this);
   }
 
   componentDidMount() {
@@ -43,6 +44,20 @@ class YelpList extends Component {
 
   }
 
+  addSelf() {
+    fetch('/addSelf', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name:'this user'}),
+    }).then (res => {
+        res.json().then(result => {
+            this.setState({
+              barList: JSON.parse(result),
+            });
+        });
+    });
+  }
+
   render() {
     return (
     <div>
@@ -70,7 +85,8 @@ class YelpList extends Component {
           <div key={key}>
             <img src={result.image_url} alt={result.name} style={{width:'304px', height:'228px'}}/>
             <p>{result.name}</p>
-            <p>{result.rating}</p>
+            <p>{`${result.occupants.length} GOING`}</p>
+            <Button bsStyle='primary' onClick={this.addSelf}>{`RSVP`}</Button>
           </div>
         );
 
