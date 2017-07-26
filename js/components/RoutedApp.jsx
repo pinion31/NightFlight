@@ -12,8 +12,9 @@ class RoutedApp extends Component {
   render() {
     return (
       <div>
-      <h1>NightFlight</h1>
-      <YelpList />
+      <h1 className='homePageTitle'>Night Flight</h1>
+      <h1 className='homePageTagline'>Let Your Friends Know Where You Are Going Tonight.</h1>
+       <YelpList />
       </div>
     );
   }

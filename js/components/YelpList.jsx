@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //import {Yelp as yelp} from 'yelp-fusion';
 //const yelp = require('yelp-fusion');
-import {Row, Col, Button, FormGroup, FormControl, Alert} from 'react-bootstrap';
+import {Row, Col, Button, FormGroup, FormControl, Form, Alert} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 class YelpList extends Component {
@@ -15,10 +15,6 @@ class YelpList extends Component {
     this.retrieveSearchData = this.retrieveSearchData.bind(this);
     this.setQuery = this.setQuery.bind(this);
     this.addSelf = this.addSelf.bind(this);
-  }
-
-  componentDidMount() {
-    //this.retrieveSearchData();
   }
 
   retrieveSearchData() {
@@ -61,8 +57,42 @@ class YelpList extends Component {
   render() {
     return (
     <div>
+      <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
+      <Form inline>
+        <FormGroup className='Formholder'>
+          <FormControl
+            name='query'
+            type='text'
+            placeholder='city,state'
+            onChange={this.setQuery}
+            maxLength='47'
+            className='Formholder'
+          />
+          <Button bsStyle='info' className='searchButton' onClick={this.retrieveSearchData}>Search</Button>
+        </FormGroup>
+      </Form>
+      </Col>
+    {this.state.barList.map((result,key) => {
+        return (
+          <div key={key}>
+            <img src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}}/>
+            <p>{result.name}</p>
+            <p>{result.goingMessage}</p>
+            <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{result.RSVPmessage}</Button>
+          </div>
+        );
+
+     })
+    }
+    </div>
+    );
+  }
+  /*
+  render() {
+    return (
+    <div>
     <Row>
-      <Col md={6} mdOffset={3} sm={6} smOffset={3} xs={6} xsOffset={3} lg={6} lgOffset={3}>
+      <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
         <FormGroup>
           <FormControl
             name='query'
@@ -71,12 +101,8 @@ class YelpList extends Component {
             onChange={this.setQuery}
             maxLength='47'
           />
+          <Button bsStyle='primary' onClick={this.retrieveSearchData}>Submit</Button>
         </FormGroup>
-      </Col>
-    </Row>
-    <Row>
-      <Col md={6} mdOffset={3} sm={6} smOffset={3} xs={6} xsOffset={3} lg={6} lgOffset={3}>
-        <Button bsStyle='primary' onClick={this.retrieveSearchData}>Submit</Button>
       </Col>
     </Row>
     <Row>
@@ -95,7 +121,7 @@ class YelpList extends Component {
     </Row>
     </div>
     );
-  }
+  }*/
 
 }
 
