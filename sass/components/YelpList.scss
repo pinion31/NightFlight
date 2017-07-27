@@ -25,6 +25,21 @@
   float:right;
   background-color:$RSVP-button-color;
   border:none;
+
+    &:hover {
+     background-color: $button-hover-red;
+    }
+ }
+
+ .goingButton {
+  margin-right:15px;
+  float:right;
+  background-color:$going-button-color;
+  border:none;
+
+    &:hover {
+     background-color: $button-hover-red;
+    }
  }
 
 .going-message {
@@ -36,7 +51,6 @@
 
 .card-title {
   margin-left: 30px;
-  font-size: 3em;
   margin-top: 5px;
   font-family: 'Open Sans', sans-serif;
   margin-bottom:0px;
@@ -53,9 +67,19 @@
 
 .address {
   margin: 0 0 0 32px;
+
     p {
-      margin-bottom:0px;
+      margin-bottom: 0 0 0 10px;
       font-weight: bold;
     }
+}
+
+.rating {
+  float:left;
+}
+
+.cardBottom {
+  display:flex;
+  justify-content: space-between;
 }
 

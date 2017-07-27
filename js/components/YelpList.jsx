@@ -42,6 +42,11 @@ class YelpList extends Component {
 
   }
 
+  toggleGoingModal() {
+
+
+  }
+
   addSelf(e) {
     fetch('/addSelf', {
       method: 'POST',
@@ -74,6 +79,9 @@ class YelpList extends Component {
       </Form>
       </Col>
     {this.state.barList.map((result,key) => {
+        let titleFontSize = result.name.length > 20?2.5:3;
+        let addressBar = result.address.length === 0?'No Street Address Available':result.address;
+
         return (
           <div key={key}>
             <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
@@ -82,13 +90,17 @@ class YelpList extends Component {
                   <Image src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}} />
                 </Media.Left>
                 <Media.Body>
-                  <p className='card-title'>{result.name}</p>
+                  <p className='card-title' style={{fontSize:`${titleFontSize.toString()}em`}}>{result.name}</p>
+                  <Button className='RSVP'name={result.id} bsStyle='danger' onClick={this.addSelf}>{result.RSVPmessage}</Button>
                   <div className='address'>
-                  <p>{result.address}</p>
+                  <p>{addressBar}</p>
                   <p>{`${result.city}, ${result.state} ${result.zipcode}`}</p>
                   </div>
+                  <div className='cardBottom'>
                   <p className='going-message'>{result.goingMessage}</p>
-                  <Button className='RSVP'name={result.id} bsStyle='danger' onClick={this.addSelf}>{result.RSVPmessage}</Button>
+                  <p className='going-message'>{`Rating: ${result.stars}`}</p>
+                  <Button className='goingButton' bsStyle='danger' onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
+                  </div>
                 </Media.Body>
               </Media>
             </Col>
@@ -101,6 +113,8 @@ class YelpList extends Component {
     );
   }
   /*
+
+  <p className='rating'>{`rating: ${result.stars}`}</p>
   render() {
     return (
     <div>

@@ -74,7 +74,7 @@ app.post('/list', (req, res) => {
             // checks and  indicates if user is already going to this club
             result.occupants.forEach((occ) => {
               if (occ === req.body.name) {
-                clubResult.goingMessage = `${result.occupants.length} GOING - YOU'RE GOING TO THIS CLUB TONIGHT!`;
+                clubResult.goingMessage = `${result.occupants.length} GOING - YOU'RE GOING!`;
                 clubResult.RSVPmessage = 'unRSVP';
               }
             });
@@ -132,7 +132,7 @@ app.post('/addSelf', (req, res) => {
 
       if (!userAlreadyRSVPd) { // if user has not already RSVP'd, add user as going
         club.occupants.push(req.body.username);
-        club.goingMessage = `${club.occupants.length} GOING - YOU'RE GOING TO THIS CLUB TONIGHT!`;
+        club.goingMessage = `${club.occupants.length} GOING - YOU'RE GOING!`;
         club.RSVPmessage = 'unRSVP';
       }
 
