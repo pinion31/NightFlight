@@ -83,8 +83,12 @@ class YelpList extends Component {
                 </Media.Left>
                 <Media.Body>
                   <p className='card-title'>{result.name}</p>
+                  <div className='address'>
+                  <p>{result.address}</p>
+                  <p>{`${result.city}, ${result.state} ${result.zipcode}`}</p>
+                  </div>
                   <p className='going-message'>{result.goingMessage}</p>
-                  <Button className='RSVP'name={result.id} bsStyle='primary' onClick={this.addSelf}>{result.RSVPmessage}</Button>
+                  <Button className='RSVP'name={result.id} bsStyle='danger' onClick={this.addSelf}>{result.RSVPmessage}</Button>
                 </Media.Body>
               </Media>
             </Col>

@@ -62,6 +62,7 @@ app.post('/list', function (req, res) {
           if (err) {
             console.log('error ' + err);
           }
+          console.dir(club);
 
           var clubResult = {
             id: club.id,
@@ -69,7 +70,13 @@ app.post('/list', function (req, res) {
             occupants: [],
             image_url: club.image_url,
             goingMessage: '0 GOING',
-            RSVPmessage: 'RSVP'
+            RSVPmessage: 'RSVP',
+            address: club.location.address1,
+            city: club.location.city,
+            state: club.location.state,
+            zipcode: club.location.zip_code,
+            stars: club.rating,
+            price: club.price
           };
 
           if (result) {
@@ -90,7 +97,13 @@ app.post('/list', function (req, res) {
               name: club.name,
               occupants: [],
               goingMessage: '0 GOING',
-              RSVPmessage: 'RSVP'
+              RSVPmessage: 'RSVP',
+              address: club.location.address1,
+              city: club.location.city,
+              state: club.location.state,
+              zipcode: club.location.zip_code,
+              stars: club.rating,
+              price: club.price
             });
 
             // save new Club entry
