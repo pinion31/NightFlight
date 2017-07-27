@@ -25,24 +25,54 @@
   float:right;
   background-color:$RSVP-button-color;
   border:none;
+  color:white;
 
-    &:hover {
+    &:hover, &:active, &:visited {
      background-color: $button-hover-red;
+     color:white;
+    }
+
+    &:focus {
+      background-color:$going-button-color;
     }
  }
+
+.btn-default {
+  background-color:$RSVP-button-color;
+    &:active {
+      background-color:$RSVP-button-color;
+    }
+}
+
 
  .goingButton {
   margin-right:15px;
   float:right;
   background-color:$going-button-color;
   border:none;
+  color:white;
 
-    &:hover {
+    &:hover, &:active, &:visited {
      background-color: $button-hover-red;
+     color:white;
+    }
+
+    &:focus {
+      background-color:$going-button-color;
     }
  }
 
 .going-message {
+  margin-left:35px;
+  float:left;
+  margin-top:15px;
+  font-weight: bold;
+  background-color: $going-card-bg-color;
+  padding: 2px 5px;
+
+}
+
+.rating-message {
   margin-left:35px;
   float:left;
   margin-top:15px;

@@ -91,14 +91,14 @@ class YelpList extends Component {
                 </Media.Left>
                 <Media.Body>
                   <p className='card-title' style={{fontSize:`${titleFontSize.toString()}em`}}>{result.name}</p>
-                  <Button className='RSVP'name={result.id} bsStyle='danger' onClick={this.addSelf}>{result.RSVPmessage}</Button>
+                  <Button className='RSVP' bsStyle='danger' name={result.id} onClick={this.addSelf}>{result.RSVPmessage}</Button>
                   <div className='address'>
                   <p>{addressBar}</p>
                   <p>{`${result.city}, ${result.state} ${result.zipcode}`}</p>
                   </div>
                   <div className='cardBottom'>
                   <p className='going-message'>{result.goingMessage}</p>
-                  <p className='going-message'>{`Rating: ${result.stars}`}</p>
+                  <p className='rating-message'>{`Rating: ${result.stars}`}</p>
                   <Button className='goingButton' bsStyle='danger' onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
                   </div>
                 </Media.Body>
