@@ -2,10 +2,40 @@
   width:100%;
 }
 
-.form-inline .form-control {
-  width:80%;
+.form-inline {
+  .form-control {
+    width:80%;
+  }
+
+  .form-group {
+    margin-bottom:40px
+  }
 }
 
-.searchButton {
+.search-button {
   margin-left: 20px;
+}
+
+.RSVP {
+  margin-left:35px;
+ }
+
+.going-message {
+  margin-left:35px;
+}
+
+.card-title {
+  margin-left: 30px;
+  font-size: 3em;
+  margin-top: 5px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.card {
+  background-color: $card-bg-color;
+  color:black;
+}
+
+.media:first-child {
+  margin-top: 10px;
 }

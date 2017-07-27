@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 //import {Yelp as yelp} from 'yelp-fusion';
 //const yelp = require('yelp-fusion');
-import {Row, Col, Button, FormGroup, FormControl, Form, Alert} from 'react-bootstrap';
+import {Row, Col, Button, FormGroup, FormControl, Form, Image, Alert, Media} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 class YelpList extends Component {
@@ -17,7 +17,9 @@ class YelpList extends Component {
     this.addSelf = this.addSelf.bind(this);
   }
 
-  retrieveSearchData() {
+  retrieveSearchData(e) {
+    e.preventDefault();
+
     fetch('/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -59,26 +61,33 @@ class YelpList extends Component {
     <div>
       <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
       <Form inline>
-        <FormGroup className='Formholder'>
+        <FormGroup className='search-field'>
           <FormControl
             name='query'
             type='text'
             placeholder='city,state'
             onChange={this.setQuery}
             maxLength='47'
-            className='Formholder'
           />
-          <Button bsStyle='info' className='searchButton' onClick={this.retrieveSearchData}>Search</Button>
+          <Button bsStyle='info' className='search-button' onClick={this.retrieveSearchData}>Search</Button>
         </FormGroup>
       </Form>
       </Col>
     {this.state.barList.map((result,key) => {
         return (
           <div key={key}>
-            <img src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}}/>
-            <p>{result.name}</p>
-            <p>{result.goingMessage}</p>
-            <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{result.RSVPmessage}</Button>
+            <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
+              <Media  className='card'>
+                <Media.Left align='top'>
+                  <Image src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}} />
+                </Media.Left>
+                <Media.Body>
+                  <p className='card-title'>{result.name}</p>
+                  <p className='going-message'>{result.goingMessage}</p>
+                  <Button className='RSVP'name={result.id} bsStyle='primary' onClick={this.addSelf}>{result.RSVPmessage}</Button>
+                </Media.Body>
+              </Media>
+            </Col>
           </div>
         );
 
@@ -108,7 +117,7 @@ class YelpList extends Component {
     <Row>
     {this.state.barList.map((result,key) => {
         return (
-          <div key={key}>
+         <div key={key}>
             <img src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}}/>
             <p>{result.name}</p>
             <p>{result.goingMessage}</p>
