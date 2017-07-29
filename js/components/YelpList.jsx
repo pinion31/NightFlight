@@ -1,20 +1,27 @@
 import React, {Component} from 'react';
-//import {Yelp as yelp} from 'yelp-fusion';
-//const yelp = require('yelp-fusion');
-import {Row, Col, Button, FormGroup, FormControl, Form, Image, Alert, Media} from 'react-bootstrap';
+import {Col, Button, FormGroup, FormControl, Form, Modal, Image, Alert, Media} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 class YelpList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      barList:[],
-      query:"",
+      barList: [],
+      query: '',
+      attendeeList: {list: []},
+      showModal: false,
     };
 
     this.retrieveSearchData = this.retrieveSearchData.bind(this);
     this.setQuery = this.setQuery.bind(this);
     this.addSelf = this.addSelf.bind(this);
+    this.toggleGoingModal = this.toggleGoingModal.bind(this);
+  }
+
+  setQuery(e) {
+    this.setState({
+      query: e.target.value,
+    });
   }
 
   retrieveSearchData(e) {
@@ -23,28 +30,35 @@ class YelpList extends Component {
     fetch('/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({query:this.state.query, name:'this user'}),
-    }).then (res => {
-        res.json().then(result => {
-            this.setState({
-              barList: JSON.parse(result),
-            });
-
+      body: JSON.stringify({query: this.state.query, name: 'this user'}),
+    }).then((res) => {
+      res.json().then((result) => {
+        this.setState({
+          barList: JSON.parse(result),
         });
-
+      });
     });
   }
 
-  setQuery(e) {
-    this.setState({
-      query:e.target.value,
-    });
-
-  }
-
-  toggleGoingModal() {
-
-
+  toggleGoingModal(e) {
+    if (!this.state.showModal) {
+      fetch('/getAttendees', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id: e.target.name}),
+      }).then((res) => {
+        res.json().then((result) => {
+          this.setState({
+            showModal: true,
+            attendeeList: result,
+          });
+        });
+      });
+    } else {
+      this.setState({
+        showModal: false,
+      });
+    }
   }
 
   addSelf(e) {
@@ -66,15 +80,15 @@ class YelpList extends Component {
     <div>
       <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
       <Form inline>
-        <FormGroup className='search-field'>
+        <FormGroup className= "search-field">
           <FormControl
-            name='query'
-            type='text'
-            placeholder='city,state'
+            name="query"
+            type="text"
+            placeholder="City, State"
             onChange={this.setQuery}
             maxLength='47'
           />
-          <Button bsStyle='info' className='search-button' onClick={this.retrieveSearchData}>Search</Button>
+          <Button bsStyle= 'info' className= 'search-button' onClick={this.retrieveSearchData}>Search</Button>
         </FormGroup>
       </Form>
       </Col>
@@ -99,63 +113,44 @@ class YelpList extends Component {
                   <div className='cardBottom'>
                   <p className='going-message'>{result.goingMessage}</p>
                   <p className='rating-message'>{`Rating: ${result.stars}`}</p>
-                  <Button className='goingButton' bsStyle='danger' onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
+                  <Button name={result.id} className='goingButton' bsStyle='danger' onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
                   </div>
                 </Media.Body>
               </Media>
             </Col>
           </div>
         );
-
      })
     }
-    </div>
+        <Modal
+          show={this.state.showModal}
+          bsSize="small"
+          aria-labelledby="contained-modal-title-sm"
+          onHide={this.toggleGoingModal}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-sm">Club Attendees</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.state.attendeeList.list.map((attendee, key) =>
+              <b key={key}>{` ${attendee},`}</b>
+            )
+            }
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="goingButton" onClick={this.toggleGoingModal}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     );
   }
-  /*
-
-  <p className='rating'>{`rating: ${result.stars}`}</p>
-  render() {
-    return (
-    <div>
-    <Row>
-      <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
-        <FormGroup>
-          <FormControl
-            name='query'
-            type='text'
-            placeholder='city,state'
-            onChange={this.setQuery}
-            maxLength='47'
-          />
-          <Button bsStyle='primary' onClick={this.retrieveSearchData}>Submit</Button>
-        </FormGroup>
-      </Col>
-    </Row>
-    <Row>
-    {this.state.barList.map((result,key) => {
-        return (
-         <div key={key}>
-            <img src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}}/>
-            <p>{result.name}</p>
-            <p>{result.goingMessage}</p>
-            <Button name={result.id} bsStyle='primary' onClick={this.addSelf}>{result.RSVPmessage}</Button>
-          </div>
-        );
-
-     })
-    }
-    </Row>
-    </div>
-    );
-  }*/
-
 }
 
-//<p>{`${result.occupants? result.occupants.length:'0'} GOING`}</p>
-YelpList.propTypes =  {
-  resultList:React.PropTypes.array,
-  query:React.PropTypes.string
+YelpList.propTypes = {
+  resultList: React.PropTypes.array,
+  query: React.PropTypes.string,
+  attendeeList: React.PropTypes.object,
+  showModal: React.PropTypes.bool,
 };
 
 export default YelpList

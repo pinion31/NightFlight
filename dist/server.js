@@ -24,7 +24,7 @@ var clientSecret = process.env.CLIENT_KEY_YELP;
 var clubSchema = mongoose.Schema({
   id: String,
   name: String,
-  occupants: Array
+  attendees: Array
 
 });
 
@@ -67,7 +67,7 @@ app.post('/list', function (req, res) {
           var clubResult = {
             id: club.id,
             name: club.name,
-            occupants: [],
+            attendees: [],
             image_url: club.image_url,
             goingMessage: '0 GOING',
             RSVPmessage: 'RSVP',
@@ -81,12 +81,12 @@ app.post('/list', function (req, res) {
 
           if (result) {
             // if club already exists in db
-            clubResult.occupants = result.occupants;
-            clubResult.goingMessage = result.occupants.length + ' GOING';
+            clubResult.attendees = result.attendees;
+            clubResult.goingMessage = result.attendees.length + ' GOING';
             // checks and  indicates if user is already going to this club
-            result.occupants.forEach(function (occ) {
+            result.attendees.forEach(function (occ) {
               if (occ === req.body.name) {
-                clubResult.goingMessage = result.occupants.length + ' GOING - YOU\'RE GOING!';
+                clubResult.goingMessage = result.attendees.length + ' GOING - YOU\'RE GOING!';
                 clubResult.RSVPmessage = 'unRSVP';
               }
             });
@@ -95,7 +95,7 @@ app.post('/list', function (req, res) {
             var newClub = new Club({
               id: club.id,
               name: club.name,
-              occupants: [],
+              attendees: [],
               goingMessage: '0 GOING',
               RSVPmessage: 'RSVP',
               address: club.location.address1,
@@ -132,12 +132,12 @@ app.post('/addSelf', function (req, res) {
       // finds corresponding club to add or remove user from
       var userAlreadyRSVPd = false;
 
-      club.occupants = club.occupants.filter(function (user) {
+      club.attendees = club.attendees.filter(function (user) {
         // checks if user has already RSVP'ed--if so, removes user from occupant list
         if (user === req.body.username) {
           userAlreadyRSVPd = true;
           // resets goingMessage to one less occupant after user removal
-          club.goingMessage = club.occupants.length - 1 + ' GOING';
+          club.goingMessage = club.attendees.length - 1 + ' GOING';
           club.RSVPmessage = 'RSVP'; // resets RSVP button from unRSVP to RSVP
         } else {
           return user;
@@ -146,14 +146,14 @@ app.post('/addSelf', function (req, res) {
 
       if (!userAlreadyRSVPd) {
         // if user has not already RSVP'd, add user as going
-        club.occupants.push(req.body.username);
-        club.goingMessage = club.occupants.length + ' GOING - YOU\'RE GOING!';
+        club.attendees.push(req.body.username);
+        club.goingMessage = club.attendees.length + ' GOING - YOU\'RE GOING!';
         club.RSVPmessage = 'unRSVP';
       }
 
       // updates occupant list in DB
       Club.findOneAndUpdate({ id: club.id }, {
-        occupants: club.occupants,
+        attendees: club.attendees,
         goingMessage: club.goingMessage,
         RSVPmessage: club.RSVPmessage }, function (err) {
         if (err) return err;
@@ -162,6 +162,11 @@ app.post('/addSelf', function (req, res) {
   });
 
   res.json(JSON.stringify(serverClubList));
+});
+
+app.post('/getAttendees', function (req, res) {
+  console.log('hit');
+  res.json({ list: ['chris', 'nicole', 'corryn', 'krystle'] });
 });
 
 app.get('*', function (req, res) {
