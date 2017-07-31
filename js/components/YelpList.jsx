@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Col, Button, FormGroup, FormControl, Form, Modal, Image, Alert, Media} from 'react-bootstrap';
 import 'whatwg-fetch';
 
+
 class YelpList extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +28,35 @@ class YelpList extends Component {
   retrieveSearchData(e) {
     e.preventDefault();
 
+    fetch('/auth/twitter', {
+      method: 'GET',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    }).then((res) => {
+      console.log('done with authenication');
+      });
+    /*
+    fetch('https://api.twitter.com/oauth/request_token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization' : `OAuth oauth_callback='http%3A%2F%2Flocalhost%2Fsign-in-with-twitter%2F',
+              oauth_consumer_key='cChZNFj6T5R0TigYB9yd1w',
+              oauth_nonce='ea9ec8429b68d6b77cd5600adbbb0456',
+              oauth_signature='F1Li3tvehgcraF8DMJ7OyxO4w9Y%3D',
+              oauth_signature_method='HMAC-SHA1',
+              oauth_timestamp='1318467427',
+              oauth_version='1.0'`
+      },
+    }).then(res => {
+      console.log('done');
+    });*/
+
+    /*
+    fetch('https://api.twitter.com/oauth/request_token', {
+
+
+    });*/
+    /*
     fetch('/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -37,7 +67,7 @@ class YelpList extends Component {
           barList: JSON.parse(result),
         });
       });
-    });
+    });*/
   }
 
   toggleGoingModal(e) {
@@ -65,63 +95,63 @@ class YelpList extends Component {
     fetch('/addSelf', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({username:'this user', id:e.target.name}),
-    }).then (res => {
-        res.json().then(result => {
-            this.setState({
-              barList: JSON.parse(result),
-            });
+      body: JSON.stringify({username: 'this user', id: e.target.name}),
+    }).then((res) => {
+      res.json().then((result) => {
+        this.setState({
+          barList: JSON.parse(result),
         });
+      });
     });
   }
 
   render() {
     return (
-    <div>
-      <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
-      <Form inline>
-        <FormGroup className= "search-field">
-          <FormControl
-            name="query"
-            type="text"
-            placeholder="City, State"
-            onChange={this.setQuery}
-            maxLength='47'
-          />
-          <Button bsStyle= 'info' className= 'search-button' onClick={this.retrieveSearchData}>Search</Button>
-        </FormGroup>
-      </Form>
-      </Col>
-    {this.state.barList.map((result,key) => {
-        let titleFontSize = result.name.length > 20?2.5:3;
-        let addressBar = result.address.length === 0?'No Street Address Available':result.address;
+      <div>
+        <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
+          <Form inline>
+            <FormGroup className="search-field">
+              <FormControl
+                name="query"
+                type="text"
+                placeholder="City, State"
+                onChange={this.setQuery}
+                maxLength="47"
+              />
+              <Button bsStyle="info" className="search-button" href='/auth/twitter'>Search</Button>
+            </FormGroup>
+          </Form>
+        </Col>
+        {this.state.barList.map((result, key) => {
+          const titleFontSize = result.name.length > 20 ? 2.5 : 3;
+          const addressBar = result.address.length === 0 ? 'No Street Address Available' : result.address;
 
-        return (
-          <div key={key}>
-            <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
-              <Media  className='card'>
-                <Media.Left align='top'>
-                  <Image src={result.image_url} alt={result.name} style={{width:'200px', height:'150px'}} />
-                </Media.Left>
-                <Media.Body>
-                  <p className='card-title' style={{fontSize:`${titleFontSize.toString()}em`}}>{result.name}</p>
-                  <Button className='RSVP' bsStyle='danger' name={result.id} onClick={this.addSelf}>{result.RSVPmessage}</Button>
-                  <div className='address'>
-                  <p>{addressBar}</p>
-                  <p>{`${result.city}, ${result.state} ${result.zipcode}`}</p>
-                  </div>
-                  <div className='cardBottom'>
-                  <p className='going-message'>{result.goingMessage}</p>
-                  <p className='rating-message'>{`Rating: ${result.stars}`}</p>
-                  <Button name={result.id} className='goingButton' bsStyle='danger' onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
-                  </div>
-                </Media.Body>
-              </Media>
-            </Col>
-          </div>
-        );
-     })
-    }
+          return (
+            <div key={key}>
+              <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
+                <Media className="card">
+                  <Media.Left align="top">
+                    <Image src={result.image_url} alt={result.name} style={{width: '200px', height: '150px'}} />
+                  </Media.Left>
+                  <Media.Body>
+                    <p className="card-title" style={{fontSize: `${titleFontSize.toString()}em`}}>{result.name}</p>
+                    <Button className="RSVP" bsStyle="danger" name={result.id} onClick={this.addSelf}>{result.RSVPmessage}</Button>
+                    <div className="address">
+                      <p>{addressBar}</p>
+                      <p>{`${result.city}, ${result.state} ${result.zipcode}`}</p>
+                    </div>
+                    <div className="cardBottom">
+                      <p className="going-message">{result.goingMessage}</p>
+                      <p className="rating-message">{`Rating: ${result.stars}`}</p>
+                      <Button name={result.id} className="goingButton" bsStyle="danger" onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
+                    </div>
+                  </Media.Body>
+                </Media>
+              </Col>
+            </div>
+          );
+        })
+        }
         <Modal
           show={this.state.showModal}
           bsSize="small"
@@ -153,4 +183,4 @@ YelpList.propTypes = {
   showModal: React.PropTypes.bool,
 };
 
-export default YelpList
+export default YelpList;

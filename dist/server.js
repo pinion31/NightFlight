@@ -12,6 +12,13 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//require('es6-promise').polyfill();
+//require('isomorphic-fetch');
+//var cors = require('cors');
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+var session = require('express-session');
+
 var mongoose = require('mongoose');
 var yelp = require('yelp-fusion');
 
@@ -25,7 +32,6 @@ var clubSchema = mongoose.Schema({
   id: String,
   name: String,
   attendees: Array
-
 });
 
 var userSchema = mongoose.Schema({
@@ -43,6 +49,43 @@ var app = (0, _express2.default)();
 
 app.use(_express2.default.static('static'));
 app.use(_bodyParser2.default.json());
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Credentials', "true");
+  next();
+});
+
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }));
+
+passport.use(new TwitterStrategy({
+  consumerKey: 'x2rfeTTyNcv8gswFNjfXdiGoH',
+  consumerSecret: 'erZgMcrVqE6AfRvUiUPWeTxi8XwPB4ONmZcBl8zKqol1lQ0P4s',
+  callbackURL: "http://localhost:8080/auth/twitter/callback"
+}, function (token, tokenSecret, profile, done) {
+  console.dir(profile);
+}));
+
+app.get('/login', function (req, res) {
+  console.log('passport failure');
+});
+app.get('/callback', function (req, res) {
+  console.log('successful callback');
+});
+
+// Redirect the user to Twitter for authentication.  When complete, Twitter
+// will redirect the user back to the application at
+//   /auth/twitter/callback
+app.get('/auth/twitter', passport.authenticate('twitter'));
+
+// Twitter will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/twitter/callback', passport.authenticate('twitter', { successRedirect: '/callback',
+  failureRedirect: '/login' }));
 
 app.post('/list', function (req, res) {
   yelp.accessToken(clientId, clientSecret).then(function (response) {

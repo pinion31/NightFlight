@@ -40,6 +40,12 @@ module.exports = {
       }
     ],
   },
+  node: {
+   fs: "empty",
+   console: true,
+   net: 'empty',
+   tls: 'empty'
+  },
   resolve: {
     extensions: ['.js', '.jsx', '.scss']
   }
