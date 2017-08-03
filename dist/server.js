@@ -63,7 +63,7 @@ app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }));
 passport.use(new TwitterStrategy({
   consumerKey: 'x2rfeTTyNcv8gswFNjfXdiGoH',
   consumerSecret: 'erZgMcrVqE6AfRvUiUPWeTxi8XwPB4ONmZcBl8zKqol1lQ0P4s',
-  callbackURL: "http://localhost:8080/auth/twitter/callback"
+  callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
 }, function (token, tokenSecret, profile, done) {
   console.dir(profile);
 }));

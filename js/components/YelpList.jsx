@@ -118,7 +118,7 @@ class YelpList extends Component {
                 onChange={this.setQuery}
                 maxLength="47"
               />
-              <Button bsStyle="info" className="search-button" href='/auth/twitter'>Search</Button>
+              <Button bsStyle="info" className="search-button" href='/auth/twitter' target="_blank">Search</Button>
             </FormGroup>
           </Form>
         </Col>
