@@ -48,6 +48,11 @@ var serverClubList = [];
 var app = (0, _express2.default)();
 
 app.use(_express2.default.static('static'));
+//app.use(passport.initialize());
+//app.use(passport.session());
+/*app.use(bodyParser.urlencoded({
+  extended: true
+}));*/
 app.use(_bodyParser2.default.json());
 
 app.use(function (req, res, next) {
@@ -58,14 +63,17 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 } }));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: new Date(Date.now() + 3600000), secure: false } }));
 
 passport.use(new TwitterStrategy({
   consumerKey: 'x2rfeTTyNcv8gswFNjfXdiGoH',
   consumerSecret: 'erZgMcrVqE6AfRvUiUPWeTxi8XwPB4ONmZcBl8zKqol1lQ0P4s',
-  callbackURL: "http://localhost:8080/auth/twitter/callback"
+  callbackURL: "http://127.0.0.1:8080/auth/twitter/callback"
 }, function (token, tokenSecret, profile, done) {
   console.dir(profile);
+  console.log('getting token...');
+  console.log('token is ' + token);
+  console.log('tokenSecret is ' + tokenSecret);
 }));
 
 app.get('/login', function (req, res) {

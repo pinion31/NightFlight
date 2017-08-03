@@ -11,12 +11,14 @@ class YelpList extends Component {
       query: '',
       attendeeList: {list: []},
       showModal: false,
+      showTwitterModal:false,
     };
 
     this.retrieveSearchData = this.retrieveSearchData.bind(this);
     this.setQuery = this.setQuery.bind(this);
     this.addSelf = this.addSelf.bind(this);
     this.toggleGoingModal = this.toggleGoingModal.bind(this);
+    this.toggleTwitterModal = this.toggleTwitterModal.bind(this);
   }
 
   setQuery(e) {
@@ -91,6 +93,13 @@ class YelpList extends Component {
     }
   }
 
+  toggleTwitterModal(e) {
+      this.setState({
+        showTwitterModal: !this.state.showTwitterModal,
+      });
+  }
+
+
   addSelf(e) {
     fetch('/addSelf', {
       method: 'POST',
@@ -118,7 +127,7 @@ class YelpList extends Component {
                 onChange={this.setQuery}
                 maxLength="47"
               />
-              <Button bsStyle="info" className="search-button" href='/auth/twitter'>Search</Button>
+              <Button bsStyle="info" className="search-button" href="/auth/twitter" target="_blank">Search</Button>
             </FormGroup>
           </Form>
         </Col>
@@ -157,6 +166,7 @@ class YelpList extends Component {
           bsSize="small"
           aria-labelledby="contained-modal-title-sm"
           onHide={this.toggleGoingModal}
+          id="twitterModal"
         >
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-sm">Club Attendees</Modal.Title>
@@ -169,6 +179,20 @@ class YelpList extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button className="goingButton" onClick={this.toggleGoingModal}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal
+          show={this.state.showTwitterModal}
+          onHide={this.toggleTwitterModal}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="twitterModal">Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="goingButton" onClick={this.toggleTwitterModal}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
