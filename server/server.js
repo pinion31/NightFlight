@@ -102,40 +102,20 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-app.get('/login', (req,res) => {
-  console.log('passport failure');
-
-});
-app.get('/callback', (req,res) => {
-    console.log('successful callback');
-});
-
 // Redirect the user to Twitter for authentication.  When complete, Twitter
 // will redirect the user back to the application at
 //   /auth/twitter/callback
-app.get('/auth/twitter', passport.authenticate('twitter', (err,user) => {
-  //console.dir(err);
-  //console.dir(user);
-  //console.log(user.query.oauth_token);
-  //console.log(user.query.oauth_verifier);
-}));
+app.get('/auth/twitter', passport.authenticate('twitter'));
 
 // Twitter will redirect the user to this URL after approval.  Finish the
 // authentication process by attempting to obtain an access token.  If
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
 
-/*
-app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { successRedirect: '/callback',
-                                     failureRedirect: '/login' })
-);*/
-
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
   (req,res) => {
-      res.redirect('/');
-      console.log('success');
+      res.redirect('/#/search');
   }
 );
 
@@ -255,7 +235,6 @@ app.post('/addSelf', (req, res) => {
 });
 
 app.post('/getAttendees', (req, res) => {
-  console.log('hit');
   res.json({list:['chris','nicole', 'corryn', 'krystle']});
 });
 

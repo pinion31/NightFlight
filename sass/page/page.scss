@@ -1,5 +1,10 @@
 body {
-  background-color: $background-color;
+  background-image: url($background-location);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 p {

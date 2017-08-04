@@ -27,36 +27,14 @@ class YelpList extends Component {
 
   retrieveSearchData(e) {
     e.preventDefault();
-
+/*
     fetch('/auth/twitter', {
       method: 'GET',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     }).then((res) => {
-      console.log('done with authenication');
-      });
-    /*
-    fetch('https://api.twitter.com/oauth/request_token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization' : `OAuth oauth_callback='http%3A%2F%2Flocalhost%2Fsign-in-with-twitter%2F',
-              oauth_consumer_key='cChZNFj6T5R0TigYB9yd1w',
-              oauth_nonce='ea9ec8429b68d6b77cd5600adbbb0456',
-              oauth_signature='F1Li3tvehgcraF8DMJ7OyxO4w9Y%3D',
-              oauth_signature_method='HMAC-SHA1',
-              oauth_timestamp='1318467427',
-              oauth_version='1.0'`
-      },
-    }).then(res => {
-      console.log('done');
-    });*/
 
-    /*
-    fetch('https://api.twitter.com/oauth/request_token', {
+      });*/
 
-
-    });*/
-    /*
     fetch('/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -67,7 +45,7 @@ class YelpList extends Component {
           barList: JSON.parse(result),
         });
       });
-    });*/
+    });
   }
 
   toggleGoingModal(e) {
@@ -108,7 +86,7 @@ class YelpList extends Component {
   render() {
     return (
       <div>
-        <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
+        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={9} xsOffset={2} lg={9} lgOffset={2}>
           <Form inline>
             <FormGroup className="search-field">
               <FormControl
@@ -118,7 +96,7 @@ class YelpList extends Component {
                 onChange={this.setQuery}
                 maxLength="47"
               />
-              <Button bsStyle="info" className="search-button" href='/auth/twitter' target="_blank">Search</Button>
+              <Button bsStyle="info" className="search-button" onClick={this.retrieveSearchData}>Search</Button>
             </FormGroup>
           </Form>
         </Col>
