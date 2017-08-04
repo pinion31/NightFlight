@@ -74,12 +74,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new TwitterStrategy({
-  consumerKey: 'k7xY01Rsb5ra7kSENYH67LSw8',
-  consumerSecret: 'FeHxH6EQyzIZlnydqIOLlmq9JvzKJYKhEZsoIczN40rmam2GCY',
+  consumerKey: process.env.CLIENT_ID_TWITTER,
+  consumerSecret: process.env.CLIENT_KEY_TWITTER,
   callbackURL: "http://localhost:8080/auth/twitter/callback"
 }, function (token, tokenSecret, profile, done) {
   User.findOne({ 'twitterUser.id': profile.id }).exec(function (err, user) {
     if (user !== null) {
+
       return done(null, user);
     } else {
       var newUser = new User({
@@ -87,7 +88,7 @@ passport.use(new TwitterStrategy({
           id: profile.id,
           token: token,
           displayName: profile.displayName,
-          userName: profile.userName
+          userName: profile.username
         }
       });
 
@@ -121,7 +122,17 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // authentication has failed.
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function (req, res) {
-  res.redirect('/#/search');
+
+  //gets friends list
+  console.dir(req.user.twitterUser.userName);
+
+  //res.cookie('user', JSON.stringify(req.session.passport.user));
+
+  res.redirect('/#/search/' + req.user.twitterUser.userName);
+  /*
+  var list = res.redirect('https://api.twitter.com/1.1/friends/list.json?cursor=-1&screen_name' +
+    `=${req.session.passport.user.userName}&skip_status=true&count=200&include_user_entities=false`);
+  console.dir(list);*/
 });
 
 app.post('/list', function (req, res) {
@@ -142,8 +153,6 @@ app.post('/list', function (req, res) {
           if (err) {
             console.log('error ' + err);
           }
-          console.dir(club);
-
           var clubResult = {
             id: club.id,
             name: club.name,
@@ -245,7 +254,13 @@ app.post('/addSelf', function (req, res) {
 });
 
 app.post('/getAttendees', function (req, res) {
-  res.json({ list: ['chris', 'nicole', 'corryn', 'krystle'] });
+  Club.findOne({ id: req.body.id }, function (err, result) {
+    if (err) {
+      return err;
+    };
+    res.json({ list: result.attendees });
+  });
+  // console.log(attendees);
 });
 
 app.get('*', function (req, res) {

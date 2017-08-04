@@ -17,7 +17,7 @@ const Login = () => (
 const MainContent = () => (
   <Switch>
     <Route exact path="/" component={Login} />
-    <Route path="/search" component={YelpList} />
+    <Route path="/search/:id" component={YelpList} />
     <Route path="*" component={NoMatch} />
   </Switch>
 );

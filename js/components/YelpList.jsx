@@ -27,18 +27,11 @@ class YelpList extends Component {
 
   retrieveSearchData(e) {
     e.preventDefault();
-/*
-    fetch('/auth/twitter', {
-      method: 'GET',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    }).then((res) => {
-
-      });*/
 
     fetch('/list', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({query: this.state.query, name: 'this user'}),
+      body: JSON.stringify({query: this.state.query, name: this.props.match.params.id}),
     }).then((res) => {
       res.json().then((result) => {
         this.setState({
@@ -73,7 +66,7 @@ class YelpList extends Component {
     fetch('/addSelf', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({username: 'this user', id: e.target.name}),
+      body: JSON.stringify({username: this.props.match.params.id, id: e.target.name}),
     }).then((res) => {
       res.json().then((result) => {
         this.setState({
@@ -86,7 +79,7 @@ class YelpList extends Component {
   render() {
     return (
       <div>
-        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={9} xsOffset={2} lg={9} lgOffset={2}>
+        <Col md={9} mdOffset={2} sm={12} xs={12} lg={9} lgOffset={2}>
           <Form inline>
             <FormGroup className="search-field">
               <FormControl
@@ -106,7 +99,7 @@ class YelpList extends Component {
 
           return (
             <div key={key}>
-              <Col md={8} mdOffset={2} sm={8} smOffset={2} xs={8} xsOffset={2} lg={8} lgOffset={2}>
+              <Col md={8} mdOffset={2} sm={12} xs={12} lg={8} lgOffset={2}>
                 <Media className="card">
                   <Media.Left align="top">
                     <Image src={result.image_url} alt={result.name} style={{width: '200px', height: '150px'}} />
@@ -140,9 +133,12 @@ class YelpList extends Component {
             <Modal.Title id="contained-modal-title-sm">Club Attendees</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.state.attendeeList.list.map((attendee, key) =>
-              <b key={key}>{` ${attendee},`}</b>
-            )
+            {this.state.attendeeList.list.map((attendee, key) => {
+              return <a key={key} href={`https://twitter.com/${attendee}`} target ="_blank">
+                <b>{`@${attendee},`}
+                </b>
+              </a>
+            })
             }
           </Modal.Body>
           <Modal.Footer>
