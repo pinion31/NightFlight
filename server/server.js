@@ -2,12 +2,11 @@
 import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
-//require('es6-promise').polyfill();
-//require('isomorphic-fetch');
-//var cors = require('cors');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
+var cookieparser = require('cookie-parser');
+var myProfile;
 
 const mongoose = require('mongoose');
 const yelp = require('yelp-fusion');
@@ -30,15 +29,27 @@ const userSchema = mongoose.Schema({
   clubs: Array,
 });
 
+const twitterUser = mongoose.Schema({
+   twitterUser:{
+     id : String,
+     token : String,
+     displayName : String,
+     userName : String,
+   }
+});
+
 const Clubber = mongoose.model('user', userSchema);
 const Club = mongoose.model('club', clubSchema);
+const User = mongoose.model('twitterUser', twitterUser);
 
 let serverClubList = [];
 
 const app = express();
 
 app.use(express.static('static'));
+app.use(cookieparser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(function(req, res, next){
      res.header("Access-Control-Allow-Origin", "*");
@@ -48,17 +59,48 @@ app.use(function(req, res, next){
      next();
  });
 
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(session({ secret: 'keyboard cat', cookie: { secure:false}, resave:true, saveUninitialized:true}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new TwitterStrategy({
-    consumerKey: 'x2rfeTTyNcv8gswFNjfXdiGoH',
-    consumerSecret: 'erZgMcrVqE6AfRvUiUPWeTxi8XwPB4ONmZcBl8zKqol1lQ0P4s',
-    callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
+    consumerKey: 'k7xY01Rsb5ra7kSENYH67LSw8',
+    consumerSecret: 'FeHxH6EQyzIZlnydqIOLlmq9JvzKJYKhEZsoIczN40rmam2GCY',
+    callbackURL: "http://localhost:8080/auth/twitter/callback"
   },
-  function(token, tokenSecret, profile, done) {
-   console.dir(profile);
-  }
-  ));
+  (token, tokenSecret, profile, done) => {
+    User.findOne({'twitterUser.id':profile.id}).
+      exec((err,user) => {
+        if (user !== null) {
+          return done(null,user);
+        }
+        else {
+          let newUser = new User({
+            twitterUser: {
+              id : profile.id,
+              token : token,
+              displayName : profile.displayName,
+              userName : profile.userName
+            }
+          });
+
+          newUser.save((err, data) => {
+            if (err) {return done(err);}
+            else {
+              return done(null,data);
+            }
+          });
+        }
+  });
+  }));
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
 app.get('/login', (req,res) => {
   console.log('passport failure');
@@ -71,15 +113,30 @@ app.get('/callback', (req,res) => {
 // Redirect the user to Twitter for authentication.  When complete, Twitter
 // will redirect the user back to the application at
 //   /auth/twitter/callback
-app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter', passport.authenticate('twitter', (err,user) => {
+  //console.dir(err);
+  //console.dir(user);
+  //console.log(user.query.oauth_token);
+  //console.log(user.query.oauth_verifier);
+}));
 
 // Twitter will redirect the user to this URL after approval.  Finish the
 // authentication process by attempting to obtain an access token.  If
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
+
+/*
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { successRedirect: '/callback',
                                      failureRedirect: '/login' })
+);*/
+
+app.get('/auth/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/' }),
+  (req,res) => {
+      res.redirect('/');
+      console.log('success');
+  }
 );
 
 app.post('/list', (req, res) => {
