@@ -12,6 +12,11 @@
   }
 }
 
+.clubImage {
+  width:200px;
+  height: 150px;
+}
+
 .search-button {
   margin-left: 20px;
   background-color: $search-button-color;
@@ -86,10 +91,20 @@
   margin-bottom:0px;
 }
 
+.large-title {
+  font-size: 3em;
+}
+
+.small-title{
+  font-size: 2.5em;
+}
+
 .card {
   background-color: $card-bg-color;
   color:black;
 }
+
+
 
 .media:first-child {
   margin-top: 10px;
@@ -113,3 +128,117 @@
   justify-content: space-between;
 }
 
+@media screen and (max-width:770px) {
+  .form-inline {
+    .form-control {
+      width:70%;
+    }
+  }
+
+  .form-control {
+    display:inline;
+  }
+}
+
+@media screen and (max-width:725px) {
+
+  p {
+    font-size: 11px;
+  }
+
+  .small-title {
+    font-size:1.5em;
+  }
+
+
+  .large-title {
+    font-size:2em;
+  }
+
+   .card {
+    height:115px;
+  }
+
+  .going-message {
+    margin-bottom:3px;
+    font-size: 9px;
+  }
+
+  .goingButton {
+    width:30%;
+    font-size: 11px;
+        padding:0px;
+    margin-bottom:3px;
+  }
+
+  .clubImage {
+    width:150px;
+    height:115px;
+  }
+
+  .RSVP {
+    font-size: 15px;
+    padding: 1px 10px;
+     margin-bottom:3px;
+  }
+
+}
+
+
+@media screen and (max-width:512px) {
+  .card {
+    height:95px;
+  }
+
+  p {
+    font-size: 8px;
+  }
+
+  .card-title {
+    margin-left: 0px;
+  }
+
+  .small-title {
+    font-size:1.2em;
+    margin-bottom: 10px;
+  }
+
+  .address {
+    margin: 0px;
+
+  }
+
+  .large-title {
+    font-size:1.5em;
+    margin-bottom: 5px;
+  }
+
+  .clubImage  {
+    width: 125px;
+    height: 95px;
+  }
+
+  .going-message {
+    margin-left: 0px;
+    margin-top: 10px;
+    font-size: 7px;
+  }
+
+  .goingButton {
+    height: 20px;
+    margin: 10px 6px 0px 20px;
+    width:100px;
+    padding: 0px 5px;
+  }
+
+  .rating-message {
+    display: none;
+  }
+
+   .RSVP {
+    font-size: 11px;
+    //padding: 5px 20px 0px 5px;
+    margin-bottom:3px;
+
+  }
+}

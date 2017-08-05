@@ -79,7 +79,7 @@ class YelpList extends Component {
   render() {
     return (
       <div>
-        <Col md={9} mdOffset={2} sm={12} xs={12} lg={9} lgOffset={2}>
+        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={12} lg={9} lgOffset={2}>
           <Form inline>
             <FormGroup className="search-field">
               <FormControl
@@ -94,7 +94,7 @@ class YelpList extends Component {
           </Form>
         </Col>
         {this.state.barList.map((result, key) => {
-          const titleFontSize = result.name.length > 20 ? 2.5 : 3;
+          const titleFontSize = result.name.length > 20 ? 'small-title' : 'large-title';
           const addressBar = result.address.length === 0 ? 'No Street Address Available' : result.address;
 
           return (
@@ -102,10 +102,10 @@ class YelpList extends Component {
               <Col md={8} mdOffset={2} sm={12} xs={12} lg={8} lgOffset={2}>
                 <Media className="card">
                   <Media.Left align="top">
-                    <Image src={result.image_url} alt={result.name} style={{width: '200px', height: '150px'}} />
+                    <Image className='clubImage' src={result.image_url} alt={result.name}/>
                   </Media.Left>
                   <Media.Body>
-                    <p className="card-title" style={{fontSize: `${titleFontSize.toString()}em`}}>{result.name}</p>
+                    <p className={`card-title ${titleFontSize}`}>{result.name}</p>
                     <Button className="RSVP" bsStyle="danger" name={result.id} onClick={this.addSelf}>{result.RSVPmessage}</Button>
                     <div className="address">
                       <p>{addressBar}</p>
