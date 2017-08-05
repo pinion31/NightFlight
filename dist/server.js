@@ -16,8 +16,6 @@ var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
 var cookieparser = require('cookie-parser');
-var myProfile;
-
 var mongoose = require('mongoose');
 var yelp = require('yelp-fusion');
 
@@ -33,12 +31,6 @@ var clubSchema = mongoose.Schema({
   attendees: Array
 });
 
-var userSchema = mongoose.Schema({
-  id: String,
-  name: String,
-  clubs: Array
-});
-
 var twitterUser = mongoose.Schema({
   twitterUser: {
     id: String,
@@ -48,7 +40,6 @@ var twitterUser = mongoose.Schema({
   }
 });
 
-var Clubber = mongoose.model('user', userSchema);
 var Club = mongoose.model('club', clubSchema);
 var User = mongoose.model('twitterUser', twitterUser);
 
@@ -62,10 +53,10 @@ app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.header('Access-Control-Allow-Credentials', "true");
+  res.header('Access-Control-Allow-Credentials', 'true');
   next();
 });
 
@@ -76,30 +67,27 @@ app.use(passport.session());
 passport.use(new TwitterStrategy({
   consumerKey: process.env.CLIENT_ID_TWITTER,
   consumerSecret: process.env.CLIENT_KEY_TWITTER,
-  callbackURL: "http://localhost:8080/auth/twitter/callback"
+  callbackURL: 'http://localhost:8080/auth/twitter/callback'
 }, function (token, tokenSecret, profile, done) {
   User.findOne({ 'twitterUser.id': profile.id }).exec(function (err, user) {
     if (user !== null) {
-
       return done(null, user);
-    } else {
-      var newUser = new User({
-        twitterUser: {
-          id: profile.id,
-          token: token,
-          displayName: profile.displayName,
-          userName: profile.username
-        }
-      });
-
-      newUser.save(function (err, data) {
-        if (err) {
-          return done(err);
-        } else {
-          return done(null, data);
-        }
-      });
     }
+    var newUser = new User({
+      twitterUser: {
+        id: profile.id,
+        token: token,
+        displayName: profile.displayName,
+        userName: profile.username
+      }
+    });
+
+    newUser.save(function (err, data) {
+      if (err) {
+        return done(err);
+      }
+      return done(null, data);
+    });
   });
 }));
 
@@ -122,17 +110,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // authentication has failed.
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function (req, res) {
-
-  //gets friends list
-  console.dir(req.user.twitterUser.userName);
-
-  //res.cookie('user', JSON.stringify(req.session.passport.user));
-
   res.redirect('/#/search/' + req.user.twitterUser.userName);
-  /*
-  var list = res.redirect('https://api.twitter.com/1.1/friends/list.json?cursor=-1&screen_name' +
-    `=${req.session.passport.user.userName}&skip_status=true&count=200&include_user_entities=false`);
-  console.dir(list);*/
 });
 
 app.post('/list', function (req, res) {
@@ -257,10 +235,9 @@ app.post('/getAttendees', function (req, res) {
   Club.findOne({ id: req.body.id }, function (err, result) {
     if (err) {
       return err;
-    };
+    }
     res.json({ list: result.attendees });
   });
-  // console.log(attendees);
 });
 
 app.get('*', function (req, res) {

@@ -1,13 +1,11 @@
-
 import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
-var passport = require('passport');
-var TwitterStrategy = require('passport-twitter').Strategy;
-var session = require('express-session');
-var cookieparser = require('cookie-parser');
-var myProfile;
 
+const passport = require('passport');
+const TwitterStrategy = require('passport-twitter').Strategy;
+const session = require('express-session');
+const cookieparser = require('cookie-parser');
 const mongoose = require('mongoose');
 const yelp = require('yelp-fusion');
 
@@ -23,22 +21,15 @@ const clubSchema = mongoose.Schema({
   attendees: Array,
 });
 
-const userSchema = mongoose.Schema({
-  id: String,
-  name: String,
-  clubs: Array,
-});
-
 const twitterUser = mongoose.Schema({
-   twitterUser:{
-     id : String,
-     token : String,
-     displayName : String,
-     userName : String,
-   }
+  twitterUser: {
+    id: String,
+    token: String,
+    displayName: String,
+    userName: String,
+  }
 });
 
-const Clubber = mongoose.model('user', userSchema);
 const Club = mongoose.model('club', clubSchema);
 const User = mongoose.model('twitterUser', twitterUser);
 
@@ -49,51 +40,48 @@ const app = express();
 app.use(express.static('static'));
 app.use(cookieparser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(function(req, res, next){
-     res.header("Access-Control-Allow-Origin", "*");
-     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-     res.header('Access-Control-Allow-Credentials', "true");
-     next();
- });
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
-app.use(session({ secret: 'keyboard cat', cookie: { secure:false}, resave:true, saveUninitialized:true}));
+app.use(session({secret: 'keyboard cat', cookie: {secure: false}, resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new TwitterStrategy({
-    consumerKey: process.env.CLIENT_ID_TWITTER,
-    consumerSecret: process.env.CLIENT_KEY_TWITTER,
-    callbackURL: "http://localhost:8080/auth/twitter/callback"
-  },
-  (token, tokenSecret, profile, done) => {
-    User.findOne({'twitterUser.id':profile.id}).
-      exec((err,user) => {
-        if (user !== null) {
-
-          return done(null,user);
+  consumerKey: process.env.CLIENT_ID_TWITTER,
+  consumerSecret: process.env.CLIENT_KEY_TWITTER,
+  callbackURL: 'http://localhost:8080/auth/twitter/callback'
+},
+(token, tokenSecret, profile, done) => {
+  User.findOne({'twitterUser.id': profile.id})
+    .exec((err, user) => {
+      if (user !== null) {
+        return done(null, user);
+      }
+      const newUser = new User({
+        twitterUser: {
+          id: profile.id,
+          token,
+          displayName: profile.displayName,
+          userName: profile.username
         }
-        else {
-          let newUser = new User({
-            twitterUser: {
-              id : profile.id,
-              token : token,
-              displayName : profile.displayName,
-              userName : profile.username
-            }
-          });
+      });
 
-          newUser.save((err, data) => {
-            if (err) {return done(err);}
-            else {
-              return done(null,data);
-            }
-          });
+      newUser.save((err, data) => {
+        if (err) {
+          return done(err);
         }
-  });
-  }));
+        return done(null, data);
+      });
+    });
+}));
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -114,20 +102,9 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // authentication has failed.
 
 app.get('/auth/twitter/callback',
-  passport.authenticate('twitter', { failureRedirect: '/' }),
-  (req,res) => {
-
-      //gets friends list
-      console.dir(req.user.twitterUser.userName);
-
-      //res.cookie('user', JSON.stringify(req.session.passport.user));
-
-      res.redirect(`/#/search/${req.user.twitterUser.userName}`);
-      /*
-      var list = res.redirect('https://api.twitter.com/1.1/friends/list.json?cursor=-1&screen_name' +
-        `=${req.session.passport.user.userName}&skip_status=true&count=200&include_user_entities=false`);
-      console.dir(list);*/
-
+  passport.authenticate('twitter', {failureRedirect: '/'}),
+  (req, res) => {
+    res.redirect(`/#/search/${req.user.twitterUser.userName}`);
   }
 );
 
@@ -245,11 +222,10 @@ app.post('/addSelf', (req, res) => {
 });
 
 app.post('/getAttendees', (req, res) => {
-  Club.findOne({id:req.body.id}, (err, result) => {
-    if (err) {return err};
-    res.json({list:result.attendees});
+  Club.findOne({id: req.body.id}, (err, result) => {
+    if (err) { return err; }
+    res.json({list: result.attendees});
   });
-  // console.log(attendees);
 });
 
 app.get('*', (req, res) => {

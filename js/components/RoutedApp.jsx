@@ -30,5 +30,4 @@ const RoutedApp = () => (
   </div>
 );
 
-// <footer>Developed By Chris Cantu</footer>
 export default RoutedApp;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Col, Button, FormGroup, FormControl, Form, Modal, Image, Alert, Media} from 'react-bootstrap';
+import {Col, Button, FormGroup, FormControl, Form, Modal, Image, Media} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 
@@ -102,7 +102,7 @@ class YelpList extends Component {
               <Col md={8} mdOffset={2} sm={12} xs={12} lg={8} lgOffset={2}>
                 <Media className="card">
                   <Media.Left align="top">
-                    <Image className='clubImage' src={result.image_url} alt={result.name}/>
+                    <Image className="clubImage" src={result.image_url} alt={result.name} />
                   </Media.Left>
                   <Media.Body>
                     <p className={`card-title ${titleFontSize}`}>{result.name}</p>
@@ -133,12 +133,12 @@ class YelpList extends Component {
             <Modal.Title id="contained-modal-title-sm">Club Attendees</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {this.state.attendeeList.list.map((attendee, key) => {
-              return <a key={key} href={`https://twitter.com/${attendee}`} target ="_blank">
+            {this.state.attendeeList.list.map((attendee, key) =>
+              (<a key={key} href={`https://twitter.com/${attendee}`} target="_blank">
                 <b>{`@${attendee},`}
                 </b>
-              </a>
-            })
+              </a>)
+            )
             }
           </Modal.Body>
           <Modal.Footer>
