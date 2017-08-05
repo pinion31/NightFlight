@@ -1,7 +1,6 @@
 
 
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -14,8 +13,7 @@ module.exports = {
     filename: 'app.bundle.js',
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.bundle.js'}),
-    new ExtractTextPlugin('bundle.css'),
+    new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.bundle.js'})
   ],
   devServer: {
     port: 8080,
@@ -38,8 +36,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ExtractTextPlugin.extract({fallback:'style-loader',
-        use:'css-loader!resolve-url-loader!sass-loader'}),
+        loaders: ['style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader'],
       },
       {
         test: /\.jpg$/,

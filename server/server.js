@@ -9,7 +9,7 @@ const cookieparser = require('cookie-parser');
 const mongoose = require('mongoose');
 const yelp = require('yelp-fusion');
 
-mongoose.connect('mongodb://localhost/nightflight');
+mongoose.connect(process.env.MONGOLAB_URI); //production db
 mongoose.Promise = global.Promise;
 
 const clientId = process.env.CLIENT_ID_YELP;
@@ -57,7 +57,7 @@ app.use(passport.session());
 passport.use(new TwitterStrategy({
   consumerKey: process.env.CLIENT_ID_TWITTER,
   consumerSecret: process.env.CLIENT_KEY_TWITTER,
-  callbackURL: 'http://localhost:8080/auth/twitter/callback'
+  callbackURL: 'https://nightflightapp.herokuapp.com/auth/twitter/callback'
 },
 (token, tokenSecret, profile, done) => {
   User.findOne({'twitterUser.id': profile.id})
@@ -232,6 +232,6 @@ app.get('*', (req, res) => {
   res.send('no match');
 });
 
-app.listen(3000, () => {
-  console.log('App started on port 3000');
+app.listen(process.env.PORT || 3000, () => {
+  console.log('App started');
 });

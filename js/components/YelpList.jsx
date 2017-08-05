@@ -151,7 +151,7 @@ class YelpList extends Component {
 }
 
 YelpList.propTypes = {
-  resultList: React.PropTypes.array,
+  barList: React.PropTypes.array,
   query: React.PropTypes.string,
   attendeeList: React.PropTypes.object,
   showModal: React.PropTypes.bool,

@@ -1,0 +1,272 @@
+body {
+  background-image: url(7f168791bcb4158b66fb224b622b1a01.jpg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+p {
+  margin: 0px;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-inline .form-control {
+  width: 80%;
+}
+
+.form-inline .form-group {
+  margin-bottom: 40px;
+}
+
+.clubImage {
+  width: 200px;
+  height: 150px;
+}
+
+.search-button {
+  margin-left: 20px;
+  background-color: #C4C8E6;
+  color: black;
+  font-weight: bold;
+}
+
+.RSVP {
+  margin-left: 35px;
+  margin-right: 15px;
+  float: right;
+  background-color: #CC0A41;
+  border: none;
+  color: white;
+}
+
+.RSVP:hover,
+.RSVP:active,
+.RSVP:visited {
+  background-color: #CC335E;
+  color: white;
+}
+
+.RSVP:focus {
+  background-color: #CC0A41;
+}
+
+.btn-default {
+  background-color: #CC0A41;
+}
+
+.btn-default:active {
+  background-color: #CC0A41;
+}
+
+.goingButton {
+  margin-right: 15px;
+  float: right;
+  background-color: #CC0A41;
+  border: none;
+  color: white;
+}
+
+.goingButton:hover,
+.goingButton:active,
+.goingButton:visited {
+  background-color: #CC335E;
+  color: white;
+}
+
+.goingButton:focus {
+  background-color: #CC0A41;
+}
+
+.going-message {
+  margin-left: 35px;
+  float: left;
+  margin-top: 15px;
+  font-weight: bold;
+  background-color: #908585;
+  padding: 2px 5px;
+}
+
+.rating-message {
+  margin-left: 35px;
+  float: left;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.card-title {
+  margin-left: 30px;
+  margin-top: 5px;
+  font-family: 'Open Sans', sans-serif;
+  margin-bottom: 0px;
+}
+
+.large-title {
+  font-size: 3em;
+}
+
+.small-title {
+  font-size: 2.5em;
+}
+
+.card {
+  background-color: #C4C8E6;
+  color: black;
+}
+
+.media:first-child {
+  margin-top: 10px;
+}
+
+.address {
+  margin: 0 0 0 32px;
+}
+
+.address p {
+  margin-bottom: 0 0 0 10px;
+  font-weight: bold;
+}
+
+.rating {
+  float: left;
+}
+
+.cardBottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 770px) {
+  .form-inline .form-control {
+    width: 70%;
+  }
+
+  .form-control {
+    display: inline;
+  }
+}
+
+@media screen and (max-width: 725px) {
+  p {
+    font-size: 11px;
+  }
+
+  .small-title {
+    font-size: 1.5em;
+  }
+
+  .large-title {
+    font-size: 2em;
+  }
+
+  .card {
+    height: 115px;
+  }
+
+  .going-message {
+    margin-bottom: 3px;
+    font-size: 9px;
+  }
+
+  .goingButton {
+    width: 30%;
+    font-size: 11px;
+    padding: 0px;
+    margin-bottom: 3px;
+  }
+
+  .clubImage {
+    width: 150px;
+    height: 115px;
+  }
+
+  .RSVP {
+    font-size: 15px;
+    padding: 1px 10px;
+    margin-bottom: 3px;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .card {
+    height: 95px;
+  }
+
+  p {
+    font-size: 8px;
+  }
+
+  .card-title {
+    margin-left: 0px;
+  }
+
+  .small-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  .address {
+    margin: 0px;
+  }
+
+  .large-title {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+  }
+
+  .clubImage {
+    width: 125px;
+    height: 95px;
+  }
+
+  .going-message {
+    margin-left: 0px;
+    margin-top: 10px;
+    font-size: 7px;
+  }
+
+  .goingButton {
+    height: 20px;
+    margin: 10px 6px 0px 20px;
+    width: 100px;
+    padding: 0px 5px;
+  }
+
+  .rating-message {
+    display: none;
+  }
+
+  .RSVP {
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+}
+
+.homePageTitle {
+  color: #C4C8E6;
+  text-align: center;
+  font-size: 6em;
+  margin: 50px 50px 0px 50px;
+  font-family: "Bellefair", serif;
+}
+
+.homePageTagline {
+  color: #C4C8E6;
+  text-align: center;
+  font-size: 2em;
+  margin: 20px 10px 40px 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.login {
+  text-align: center;
+}
+
+.login img {
+  width: 20%;
+}
+/*# sourceMappingURL=bundle.css.map*/
