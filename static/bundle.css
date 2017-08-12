@@ -1,3 +1,7 @@
+html {
+  overflow-x: hidden;
+}
+
 body {
   background-image: url(7f168791bcb4158b66fb224b622b1a01.jpg);
   -webkit-background-size: cover;
@@ -5,6 +9,7 @@ body {
   -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 p {
@@ -140,9 +145,53 @@ p {
   justify-content: space-between;
 }
 
+.homePageTitle {
+  color: #C4C8E6;
+  text-align: center;
+  font-size: 6em;
+  margin: 50px 50px 0px 50px;
+  font-family: "Bellefair", serif;
+}
+
+.homePageTagline {
+  color: #C4C8E6;
+  text-align: center;
+  font-size: 2em;
+  margin: 20px 10px 40px 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.login {
+  text-align: center;
+}
+
+.login img {
+  width: 20%;
+}
+/*# sourceMappingURL=bundle.css.map*/
+
+@media screen and (max-width: 321px) {
+  .form-inline .form-control {
+    width: 60%;
+  }
+
+  p {
+    font-size: 7.5px;
+  }
+
+   .large-title {
+    font-size: 1em;
+  }
+
+   .small-title {
+    font-size: .7em;
+    margin-bottom: 2px;
+  }
+}
+
 @media screen and (max-width: 770px) {
   .form-inline .form-control {
-    width: 70%;
+    width: 60%;
   }
 
   .form-control {
@@ -245,28 +294,3 @@ p {
     margin-bottom: 3px;
   }
 }
-
-.homePageTitle {
-  color: #C4C8E6;
-  text-align: center;
-  font-size: 6em;
-  margin: 50px 50px 0px 50px;
-  font-family: "Bellefair", serif;
-}
-
-.homePageTagline {
-  color: #C4C8E6;
-  text-align: center;
-  font-size: 2em;
-  margin: 20px 10px 40px 10px;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.login {
-  text-align: center;
-}
-
-.login img {
-  width: 20%;
-}
-/*# sourceMappingURL=bundle.css.map*/
