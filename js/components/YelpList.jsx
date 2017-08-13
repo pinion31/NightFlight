@@ -95,7 +95,7 @@ class YelpList extends Component {
         </Col>
         {this.state.barList.map((result, key) => {
           const titleFontSize = result.name.length > 20 ? 'small-title' : 'large-title';
-          const addressBar = result.address.length === 0 ? 'No Street Address Available' : result.address;
+          const addressBar = result.address.length === 0 ? 'No Street Address' : result.address;
 
           return (
             <div key={key}>

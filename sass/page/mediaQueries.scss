@@ -1,3 +1,22 @@
+@media screen and (max-width: 321px) {
+  .form-inline .form-control {
+    width: 60%;
+  }
+
+  p {
+    font-size: 7.5px;
+  }
+
+   .large-title {
+    font-size: 1em;
+  }
+
+   .small-title {
+    font-size: .7em;
+    margin-bottom: 2px;
+  }
+}
+
 @media screen and (max-width: 770px) {
   .form-inline .form-control {
     width: 70%;
