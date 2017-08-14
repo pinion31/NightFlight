@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-image: url(7f168791bcb4158b66fb224b622b1a01.jpg);
+  background: black url(7f168791bcb4158b66fb224b622b1a01.jpg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
