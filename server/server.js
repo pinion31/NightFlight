@@ -57,8 +57,7 @@ app.use(passport.session());
 passport.use(new TwitterStrategy({
   consumerKey: process.env.CLIENT_ID_TWITTER,
   consumerSecret: process.env.CLIENT_KEY_TWITTER,
-  //callbackURL: 'https://nightflight.herokuapp.com/auth/twitter/callback'
-  callbackURL: 'http://localhost:3000/auth/twitter/callback'
+  callbackURL: 'https://nightflight.herokuapp.com/auth/twitter/callback'
 },
 (token, tokenSecret, profile, done) => {
   User.findOne({'twitterUser.id': profile.id})

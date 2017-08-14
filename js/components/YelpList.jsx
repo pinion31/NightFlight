@@ -115,6 +115,7 @@ class YelpList extends Component {
                       <Col md={8} mdOffset={2} sm={12} xs={12} lg={12} lgOffset={0}>
                         <div className="cardBottom">
                           <p className="going-message">{result.goingMessage}</p>
+                          <p className="rating-message">{`Rating: ${result.stars}`}</p>
                           <Button name={result.id} className="goingButton" bsStyle="danger" onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
                         </div>
                       </Col>

@@ -143,8 +143,12 @@ p {
 }
 
 .cardBottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin-top: 9px;
   height:30px;
 }
@@ -172,8 +176,6 @@ p {
 .login img {
   width: 20%;
 }
-
-/*# sourceMappingURL=bundle.css.map*/
 
 @media (max-width: 320px) {
    .form-inline .form-control {

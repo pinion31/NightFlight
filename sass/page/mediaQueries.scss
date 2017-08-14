@@ -1,10 +1,27 @@
-@media screen and (max-width: 321px) {
-  .form-inline .form-control {
-    width: 60%;
+@media (max-width: 320px) {
+   .form-inline .form-control {
+    width: 50%;
+  }
+
+  .cardBottom {
+    margin-left: 12px;
+    margin-top: 0px;
+  }
+
+  .address {
+    margin:0px;
+  }
+  .btn {
+
+    padding: 4px 12px;
+  }
+
+  .form-control {
+    display: inline;
   }
 
   p {
-    font-size: 7.5px;
+    font-size: 6.8px;
   }
 
    .large-title {
@@ -15,20 +32,211 @@
     font-size: .7em;
     margin-bottom: 2px;
   }
+
+  .clubImage {
+    width: 100px;
+    height: 90px;
+  }
+
+   .card {
+    height: 90px;
+  }
+
+  .rating-message {
+    display: none;
+  }
+
+  .RSVP {
+    margin-left: 0px;
+    font-size: 9px;
+    margin-bottom: 3px;
+    margin-right: 10px;
+  }
+
+  .card-title {
+    margin-left: 0px;
+  }
+
+  .going-message {
+    margin-left: -13px;
+    margin-top: 0px;
+    font-size: 5px;
+    margin-right: 6px;
+  }
+
+  .goingButton {
+    height: 20px;
+    margin: 10px 2px 0px 20px;
+    width: 80px;
+    padding: 2px 5px;
+    margin-left:6px;
+    font-size: 9px;
+  }
 }
 
-@media screen and (max-width: 770px) {
-  .form-inline .form-control {
+@media (max-width: 400px) and (min-width: 320px) {
+    .form-inline .form-control {
+    width: 55%;
+  }
+
+  .form-control {
+    display: inline;
+  }
+
+  .card {
+    height: 95px;
+  }
+
+  .cardBottom {
+    margin-top: 0px;
+    height: 30px;
+  }
+
+    .card-title {
+    margin-left: 0px;
+  }
+
+  .going-message {
+    margin-left: 0px;
+    margin-top: 2px;
+    font-size: 7px;
+    padding: 2px 5px 2px 5px;
+  }
+
+  .goingButton {
+    height: 20px;
+    margin: 10px 6px 0px 20px;
+    width: 100px;
+    padding: 0px 5px;
+    font-size: 9px;
+  }
+
+  .small-title {
+    font-size: .75em;
+    margin-bottom: 6px;
+  }
+
+  .address {
+    margin: 10px 0px 0px 0px;
+  }
+
+  .large-title {
+    font-size: 1.2em;
+    margin-bottom: 3px;
+  }
+
+  .clubImage {
+    width: 110px;
+    height: 95px;
+  }
+
+  .rating-message {
+    display: none;
+  }
+
+  .RSVP {
+    font-size: 9px;
+    margin-bottom: 3px;
+    margin-right: 8px;
+  }
+
+  p {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 480px) and (min-width: 401px) {
+    .form-inline .form-control {
+    width: 60%;
+  }
+
+  .form-control {
+    display: inline;
+  }
+
+  .card {
+    height: 95px;
+  }
+
+  .card-title {
+    margin-left: 0px;
+  }
+
+  .going-message {
+    margin-left: 0px;
+    margin-top: 1px;
+    font-size: 8px;
+    margin-right: 34px;
+
+  }
+
+  .goingButton {
+    height: 20px;
+    margin: 5px 6px 0px 20px;
+    width: 100px;
+    padding: 0px 5px;
+    font-size: 9px;
+  }
+
+  .small-title {
+    font-size: 1.25em;
+    margin-bottom: 6px;
+  }
+
+  .address {
+    margin: 0px;
+  }
+
+  .large-title {
+    font-size: 1.5em;
+    margin-bottom: 0px;
+  }
+
+  .clubImage {
+    width: 110px;
+    height: 95px;
+  }
+
+  .rating-message {
+    display: none;
+  }
+
+  .RSVP {
+    font-size: 9px;
+    margin-bottom: 3px;
+    margin-right: 8px;
+  }
+
+  p {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 600px) and (min-width: 481px) {
+    .form-inline .form-control {
     width: 70%;
   }
 
   .form-control {
     display: inline;
   }
+
+  .rating-message {
+    display: none;
+  }
 }
 
-@media screen and (max-width: 725px) {
-  p {
+@media (max-width: 801px) and (min-width: 601px) {
+
+  .rating-message {
+    display: none;
+  }
+
+  .form-control {
+    display: inline;
+  }
+
+   p {
     font-size: 11px;
   }
 
@@ -51,74 +259,27 @@
 
   .goingButton {
     width: 30%;
-    font-size: 11px;
+    font-size: 14px;
     padding: 0px;
     margin-bottom: 3px;
   }
 
   .clubImage {
-    width: 150px;
+    width: 155px;
     height: 115px;
   }
 
   .RSVP {
-    font-size: 15px;
+    font-size: 14px;
     padding: 1px 10px;
     margin-bottom: 3px;
   }
+
 }
 
-@media screen and (max-width: 512px) {
-  .card {
-    height: 95px;
-  }
-
-  p {
-    font-size: 8px;
-  }
-
-  .card-title {
-    margin-left: 0px;
-  }
-
-  .small-title {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
-
-  .address {
-    margin: 0px;
-  }
-
-  .large-title {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-  }
-
-  .clubImage {
-    width: 125px;
-    height: 95px;
-  }
-
+@media (min-width: 802px)  {
   .going-message {
-    margin-left: 0px;
-    margin-top: 10px;
-    font-size: 7px;
+    font-size: 10px;
   }
 
-  .goingButton {
-    height: 20px;
-    margin: 10px 6px 0px 20px;
-    width: 100px;
-    padding: 0px 5px;
-  }
-
-  .rating-message {
-    display: none;
-  }
-
-  .RSVP {
-    font-size: 11px;
-    margin-bottom: 3px;
-  }
 }

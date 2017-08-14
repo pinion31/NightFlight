@@ -13,8 +13,8 @@
 }
 
 .clubImage {
-  width:200px;
-  height: 150px;
+  width: 150px;
+  height: 125px;
 }
 
 .search-button {
@@ -26,7 +26,7 @@
 
 .RSVP {
   margin-left:35px;
-  margin-right:15px;
+  margin-right:8px;
   float:right;
   background-color:$RSVP-button-color;
   border:none;
@@ -51,7 +51,7 @@
 
 
  .goingButton {
-  margin-right:15px;
+  margin-right:8px;
   float:right;
   background-color:$going-button-color;
   border:none;
@@ -68,50 +68,50 @@
  }
 
 .going-message {
-  margin-left:35px;
+  margin-left:13px;
   float:left;
-  margin-top:15px;
+  margin-top:1px;
   font-weight: bold;
   background-color: $going-card-bg-color;
-  padding: 2px 5px;
-
+  padding: 8px 5px 2px 5px;
+  font-size: 7px;
 }
 
 .rating-message {
   margin-left:35px;
   float:left;
-  margin-top:15px;
+  margin-top:0px;
   font-weight: bold;
 }
 
 .card-title {
-  margin-left: 30px;
+  margin-left: 10px;
   margin-top: 5px;
   font-family: 'Open Sans', sans-serif;
   margin-bottom:0px;
 }
 
 .large-title {
-  font-size: 3em;
+  font-size: 2em;
 }
 
 .small-title{
-  font-size: 2.5em;
+  font-size: 1.35em;
 }
 
 .card {
   background-color: $card-bg-color;
   color:black;
+  height: 125px;
 }
-
-
 
 .media:first-child {
   margin-top: 10px;
 }
 
 .address {
-  margin: 0 0 0 32px;
+  margin: 0 0 0 13px;
+  font-size: .8em;
 
     p {
       margin-bottom: 0 0 0 10px;
@@ -126,4 +126,6 @@
 .cardBottom {
   display:flex;
   justify-content: space-between;
+  margin-top: 9px;
+  height:30px;
 }
