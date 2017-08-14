@@ -22,11 +22,18 @@ const MainContent = () => (
   </Switch>
 );
 
+const Footer = () => (
+  <div className="footer">
+    <div />
+  </div>
+);
+
 const RoutedApp = () => (
   <div>
     <h1 className="homePageTitle">Night Flight</h1>
     <h1 className="homePageTagline">Let Your Friends Know Where You Are Going Tonight.</h1>
     <MainContent />
+    <Footer />
   </div>
 );
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Col, Row,Button, FormGroup, FormControl, Form, Modal, Image, Media} from 'react-bootstrap';
+import {Col, Row, Button, FormGroup, FormControl, Form, Modal, Image, Media} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 
@@ -79,7 +79,7 @@ class YelpList extends Component {
   render() {
     return (
       <div>
-        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={10}  xsOffset={1}lg={9} lgOffset={2}>
+        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={10} xsOffset={1} lg={9} lgOffset={2}>
           <Form inline>
             <FormGroup className="search-field">
               <FormControl

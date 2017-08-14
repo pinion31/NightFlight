@@ -99,6 +99,14 @@ var MainContent = function MainContent() {
   );
 };
 
+var Footer = function Footer() {
+  return _react2.default.createElement(
+    'div',
+    { className: 'footer' },
+    _react2.default.createElement('div', null)
+  );
+};
+
 var RoutedApp = function RoutedApp() {
   return _react2.default.createElement(
     'div',
@@ -113,7 +121,8 @@ var RoutedApp = function RoutedApp() {
       { className: 'homePageTagline' },
       'Let Your Friends Know Where You Are Going Tonight.'
     ),
-    _react2.default.createElement(MainContent, null)
+    _react2.default.createElement(MainContent, null),
+    _react2.default.createElement(Footer, null)
   );
 };
 
