@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Col, Button, FormGroup, FormControl, Form, Modal, Image, Media} from 'react-bootstrap';
+import {Col, Row,Button, FormGroup, FormControl, Form, Modal, Image, Media} from 'react-bootstrap';
 import 'whatwg-fetch';
 
 
@@ -79,7 +79,7 @@ class YelpList extends Component {
   render() {
     return (
       <div>
-        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={12} lg={9} lgOffset={2}>
+        <Col md={9} mdOffset={2} sm={9} smOffset={2} xs={10}  xsOffset={1}lg={9} lgOffset={2}>
           <Form inline>
             <FormGroup className="search-field">
               <FormControl
@@ -111,11 +111,14 @@ class YelpList extends Component {
                       <p>{addressBar}</p>
                       <p>{`${result.city}, ${result.state} ${result.zipcode}`}</p>
                     </div>
-                    <div className="cardBottom">
-                      <p className="going-message">{result.goingMessage}</p>
-                      <p className="rating-message">{`Rating: ${result.stars}`}</p>
-                      <Button name={result.id} className="goingButton" bsStyle="danger" onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
-                    </div>
+                    <Row>
+                      <Col md={8} mdOffset={2} sm={12} xs={12} lg={12} lgOffset={0}>
+                        <div className="cardBottom">
+                          <p className="going-message">{result.goingMessage}</p>
+                          <Button name={result.id} className="goingButton" bsStyle="danger" onClick={this.toggleGoingModal}>{"See Who's Going"}</Button>
+                        </div>
+                      </Col>
+                    </Row>
                   </Media.Body>
                 </Media>
               </Col>

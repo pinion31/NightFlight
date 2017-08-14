@@ -28,8 +28,8 @@ p {
 }
 
 .clubImage {
-  width: 150px;
-  height: 125px;
+  width: 200px;
+  height: 150px;
 }
 
 .search-button {
@@ -41,7 +41,7 @@ p {
 
 .RSVP {
   margin-left: 35px;
-  margin-right: 8px;
+  margin-right: 15px;
   float: right;
   background-color: #CC0A41;
   border: none;
@@ -68,7 +68,7 @@ p {
 }
 
 .goingButton {
-  margin-right: 8px;
+  margin-right: 15px;
   float: right;
   background-color: #CC0A41;
   border: none;
@@ -87,41 +87,39 @@ p {
 }
 
 .going-message {
-  margin-left: 13px;
+  margin-left: 35px;
   float: left;
-  margin-top: 1px;
+  margin-top: 15px;
   font-weight: bold;
   background-color: #908585;
-  padding: 8px 5px 2px 5px;
-  font-size: 7px;
+  padding: 2px 5px;
 }
 
 .rating-message {
   margin-left: 35px;
   float: left;
-  margin-top: 0px;
+  margin-top: 15px;
   font-weight: bold;
 }
 
 .card-title {
-  margin-left: 10px;
+  margin-left: 30px;
   margin-top: 5px;
   font-family: 'Open Sans', sans-serif;
   margin-bottom: 0px;
 }
 
 .large-title {
-  font-size: 2em;
+  font-size: 3em;
 }
 
 .small-title {
-  font-size: 1.35em;
+  font-size: 2.5em;
 }
 
 .card {
   background-color: #C4C8E6;
   color: black;
-  height: 125px;
 }
 
 .media:first-child {
@@ -129,8 +127,7 @@ p {
 }
 
 .address {
-  margin: 0 0 0 13px;
-  font-size: .8em;
+  margin: 0 0 0 32px;
 }
 
 .address p {
@@ -145,8 +142,6 @@ p {
 .cardBottom {
   display: flex;
   justify-content: space-between;
-  margin-top: 9px;
-  height:30px;
 }
 
 .homePageTitle {
@@ -173,16 +168,13 @@ p {
   width: 20%;
 }
 
-/*# sourceMappingURL=bundle.css.map*/
-
-@media (max-width: 320px) {
-   .form-inline .form-control {
-    width: 50%;
+@media screen and (max-width: 321px) {
+  .form-inline .form-control {
+    width: 60%;
   }
 
   .cardBottom {
     margin-left: 12px;
-    margin-top: 0px;
   }
 
   .address {
@@ -235,25 +227,25 @@ p {
   }
 
   .going-message {
-    margin-left: -13px;
-    margin-top: 0px;
+    margin-left: 0px;
+    margin-top: 10px;
     font-size: 5px;
-    margin-right: 6px;
+    margin-right: 19px;
   }
 
   .goingButton {
     height: 20px;
-    margin: 10px 2px 0px 20px;
-    width: 80px;
+    margin: 10px -7px 0px 20px;
+    width: 100px;
     padding: 2px 5px;
     margin-left:6px;
     font-size: 9px;
   }
 }
 
-@media (max-width: 400px) and (min-width: 320px) {
-    .form-inline .form-control {
-    width: 55%;
+@media screen and (max-width: 512px) and (min-width:322px) {
+   .form-inline .form-control {
+    width: 60%;
   }
 
   .form-control {
@@ -264,20 +256,17 @@ p {
     height: 95px;
   }
 
-  .cardBottom {
-    margin-top: 0px;
-    height: 30px;
-  }
 
-    .card-title {
+
+  .card-title {
     margin-left: 0px;
   }
 
   .going-message {
     margin-left: 0px;
-    margin-top: 2px;
-    font-size: 7px;
-    padding: 2px 5px 2px 5px;
+    margin-top: 10px;
+    font-size: 5px;
+
   }
 
   .goingButton {
@@ -294,79 +283,12 @@ p {
   }
 
   .address {
-    margin: 10px 0px 0px 0px;
-  }
-
-  .large-title {
-    font-size: 1.2em;
-    margin-bottom: 3px;
-  }
-
-  .clubImage {
-    width: 110px;
-    height: 95px;
-  }
-
-  .rating-message {
-    display: none;
-  }
-
-  .RSVP {
-    font-size: 9px;
-    margin-bottom: 3px;
-    margin-right: 8px;
-  }
-
-  p {
-    font-size: 7px;
-  }
-}
-
-@media (max-width: 480px) and (min-width: 401px) {
-    .form-inline .form-control {
-    width: 60%;
-  }
-
-  .form-control {
-    display: inline;
-  }
-
-  .card {
-    height: 95px;
-  }
-
-  .card-title {
-    margin-left: 0px;
-  }
-
-  .going-message {
-    margin-left: 0px;
-    margin-top: 1px;
-    font-size: 8px;
-    margin-right: 34px;
-
-  }
-
-  .goingButton {
-    height: 20px;
-    margin: 5px 6px 0px 20px;
-    width: 100px;
-    padding: 0px 5px;
-    font-size: 9px;
-  }
-
-  .small-title {
-    font-size: 1.25em;
-    margin-bottom: 6px;
-  }
-
-  .address {
     margin: 0px;
   }
 
   .large-title {
-    font-size: 1.5em;
-    margin-bottom: 0px;
+    font-size: 1em;
+    margin-bottom: 3px;
   }
 
   .clubImage {
@@ -381,39 +303,43 @@ p {
   .RSVP {
     font-size: 9px;
     margin-bottom: 3px;
-    margin-right: 8px;
-  }
-
-  p {
-    font-size: 9px;
+    margin-right: 22px;
   }
 }
 
-@media (max-width: 600px) and (min-width: 481px) {
-    .form-inline .form-control {
+@media screen and (max-width:379px) {
+  .going-message {
+    margin-right: 34px;
+  }
+  p {
+    font-size: 7px;
+  }
+
+}
+
+@media screen and (min-width:380px) {
+  .going-message {
+     margin-right: 80px;
+  }
+  p {
+    font-size: 8px;
+  }
+
+}
+
+
+@media screen and (max-width: 770px)  and (min-width: 513px) {
+  .form-inline .form-control {
     width: 70%;
   }
 
   .form-control {
     display: inline;
   }
-
-  .rating-message {
-    display: none;
-  }
 }
 
-@media (max-width: 801px) and (min-width: 601px) {
-
-  .rating-message {
-    display: none;
-  }
-
-  .form-control {
-    display: inline;
-  }
-
-   p {
+@media screen and (max-width: 725px) and (min-width: 513px) {
+  p {
     font-size: 11px;
   }
 
@@ -436,28 +362,40 @@ p {
 
   .goingButton {
     width: 30%;
-    font-size: 14px;
+    font-size: 11px;
     padding: 0px;
     margin-bottom: 3px;
   }
 
   .clubImage {
-    width: 155px;
-    height: 115px;
+    width: 125px;
+    height: 95px;
   }
 
   .RSVP {
-    font-size: 14px;
+    font-size: 15px;
     padding: 1px 10px;
     margin-bottom: 3px;
   }
+}
+
+
+/*# sourceMappingURL=bundle.css.map*/
+
+@media (max-width: 320px) {
 
 }
 
-@media (min-width: 802px)  {
-  .going-message {
-    font-size: 10px;
-  }
+@media (max-width: 480px) and (min-width: 320px) {
 
 }
 
+@media (max-width: 600px) and (min-width: 481px) {
+
+}
+
+@media (max-width: 801px) and (min-width: 601px) {
+
+
+
+}

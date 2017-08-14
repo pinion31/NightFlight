@@ -248,7 +248,7 @@ var YelpList = function (_Component) {
         null,
         _react2.default.createElement(
           _reactBootstrap.Col,
-          { md: 9, mdOffset: 2, sm: 9, smOffset: 2, xs: 12, lg: 9, lgOffset: 2 },
+          { md: 9, mdOffset: 2, sm: 9, smOffset: 2, xs: 10, xsOffset: 1, lg: 9, lgOffset: 2 },
           _react2.default.createElement(
             _reactBootstrap.Form,
             { inline: true },
@@ -272,7 +272,7 @@ var YelpList = function (_Component) {
         ),
         this.state.barList.map(function (result, key) {
           var titleFontSize = result.name.length > 20 ? 'small-title' : 'large-title';
-          var addressBar = result.address.length === 0 ? 'No Street Address Available' : result.address;
+          var addressBar = result.address.length === 0 ? 'No Street Address' : result.address;
 
           return _react2.default.createElement(
             'div',
@@ -316,22 +316,30 @@ var YelpList = function (_Component) {
                     )
                   ),
                   _react2.default.createElement(
-                    'div',
-                    { className: 'cardBottom' },
+                    _reactBootstrap.Row,
+                    null,
                     _react2.default.createElement(
-                      'p',
-                      { className: 'going-message' },
-                      result.goingMessage
-                    ),
-                    _react2.default.createElement(
-                      'p',
-                      { className: 'rating-message' },
-                      'Rating: ' + result.stars
-                    ),
-                    _react2.default.createElement(
-                      _reactBootstrap.Button,
-                      { name: result.id, className: 'goingButton', bsStyle: 'danger', onClick: _this5.toggleGoingModal },
-                      "See Who's Going"
+                      _reactBootstrap.Col,
+                      { md: 8, mdOffset: 2, sm: 12, xs: 12, lg: 12, lgOffset: 0 },
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'cardBottom' },
+                        _react2.default.createElement(
+                          'p',
+                          { className: 'going-message' },
+                          result.goingMessage
+                        ),
+                        _react2.default.createElement(
+                          'p',
+                          { className: 'rating-message' },
+                          'Rating: ' + result.stars
+                        ),
+                        _react2.default.createElement(
+                          _reactBootstrap.Button,
+                          { name: result.id, className: 'goingButton', bsStyle: 'danger', onClick: _this5.toggleGoingModal },
+                          "See Who's Going"
+                        )
+                      )
                     )
                   )
                 )
