@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background-image: url($background-location);
+  background: $bgcolor url($background-location);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
