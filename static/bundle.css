@@ -4,9 +4,6 @@ html {
 
 body {
   background: #24021d url(7f168791bcb4158b66fb224b622b1a01.jpg);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
   background-size: cover;
   background-attachment: fixed;
   background-repeat: no-repeat;
@@ -144,8 +141,12 @@ p {
 }
 
 .cardBottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin-top: 9px;
   height: 30px;
 }
@@ -459,4 +460,3 @@ p {
     font-size: 10px;
   }
 }
-/*# sourceMappingURL=bundle.css.map*/
