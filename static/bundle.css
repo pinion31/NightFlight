@@ -3,7 +3,7 @@ html {
 }
 
 body {
-  background: black url(7f168791bcb4158b66fb224b622b1a01.jpg);
+  background: #24021d url(7f168791bcb4158b66fb224b622b1a01.jpg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -144,14 +144,10 @@ p {
 }
 
 .cardBottom {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
   margin-top: 9px;
-  height:30px;
+  height: 30px;
 }
 
 .footer {
@@ -183,7 +179,7 @@ p {
 }
 
 @media (max-width: 320px) {
-   .form-inline .form-control {
+  .form-inline .form-control {
     width: 50%;
   }
 
@@ -193,10 +189,10 @@ p {
   }
 
   .address {
-    margin:0px;
+    margin: 0px;
   }
-  .btn {
 
+  .btn {
     padding: 4px 12px;
   }
 
@@ -208,11 +204,11 @@ p {
     font-size: 6.8px;
   }
 
-   .large-title {
+  .large-title {
     font-size: 1em;
   }
 
-   .small-title {
+  .small-title {
     font-size: .7em;
     margin-bottom: 2px;
   }
@@ -222,7 +218,7 @@ p {
     height: 90px;
   }
 
-   .card {
+  .card {
     height: 90px;
   }
 
@@ -253,13 +249,13 @@ p {
     margin: 10px 2px 0px 20px;
     width: 80px;
     padding: 2px 5px;
-    margin-left:6px;
+    margin-left: 6px;
     font-size: 9px;
   }
 }
 
 @media (max-width: 400px) and (min-width: 320px) {
-    .form-inline .form-control {
+  .form-inline .form-control {
     width: 55%;
   }
 
@@ -276,7 +272,7 @@ p {
     height: 30px;
   }
 
-    .card-title {
+  .card-title {
     margin-left: 0px;
   }
 
@@ -330,7 +326,7 @@ p {
 }
 
 @media (max-width: 480px) and (min-width: 401px) {
-    .form-inline .form-control {
+  .form-inline .form-control {
     width: 60%;
   }
 
@@ -351,7 +347,6 @@ p {
     margin-top: 1px;
     font-size: 8px;
     margin-right: 34px;
-
   }
 
   .goingButton {
@@ -397,7 +392,7 @@ p {
 }
 
 @media (max-width: 600px) and (min-width: 481px) {
-    .form-inline .form-control {
+  .form-inline .form-control {
     width: 70%;
   }
 
@@ -411,7 +406,6 @@ p {
 }
 
 @media (max-width: 801px) and (min-width: 601px) {
-
   .rating-message {
     display: none;
   }
@@ -420,7 +414,7 @@ p {
     display: inline;
   }
 
-   p {
+  p {
     font-size: 11px;
   }
 
@@ -458,13 +452,11 @@ p {
     padding: 1px 10px;
     margin-bottom: 3px;
   }
-
 }
 
-@media (min-width: 802px)  {
+@media (min-width: 802px) {
   .going-message {
     font-size: 10px;
   }
-
 }
-
+/*# sourceMappingURL=bundle.css.map*/

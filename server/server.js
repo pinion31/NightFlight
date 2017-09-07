@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 
+const path = require('path');
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 const session = require('express-session');
@@ -104,7 +105,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', {failureRedirect: '/'}),
   (req, res) => {
-    res.redirect(`/#/search/${req.user.twitterUser.userName}`);
+    res.redirect(`/search/${req.user.twitterUser.userName}`);
   }
 );
 
@@ -229,7 +230,7 @@ app.post('/getAttendees', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.send('no match');
+  res.sendFile(path.resolve(__dirname, '../static', 'index.html'));
 });
 
 app.listen(process.env.PORT || 3000, () => {

@@ -1,14 +1,14 @@
 import React from 'react';
 import 'babel-polyfill';
 import ReactDOM from 'react-dom';
-import {HashRouter} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import '../sass/style.scss';
 import RoutedApp from './components/RoutedApp';
 
 ReactDOM.render(
-  <HashRouter>
+  <BrowserRouter>
     <RoutedApp />
-  </HashRouter>,
+  </BrowserRouter>,
   document.getElementById('app'),
 );
 

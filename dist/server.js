@@ -12,6 +12,7 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var path = require('path');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var session = require('express-session');
@@ -110,7 +111,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // authentication has failed.
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function (req, res) {
-  res.redirect('/#/search/' + req.user.twitterUser.userName);
+  res.redirect('/search/' + req.user.twitterUser.userName);
 });
 
 app.post('/list', function (req, res) {
@@ -241,7 +242,7 @@ app.post('/getAttendees', function (req, res) {
 });
 
 app.get('*', function (req, res) {
-  res.send('no match');
+  res.sendFile(path.resolve(__dirname, '../static', 'index.html'));
 });
 
 app.listen(process.env.PORT || 3000, function () {
