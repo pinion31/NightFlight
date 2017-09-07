@@ -105,7 +105,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', {failureRedirect: '/'}),
   (req, res) => {
-    res.redirect(`/search/${req.user.twitterUser.userName}`);
+    res.redirect(`/#/search/${req.user.twitterUser.userName}`);
   }
 );
 

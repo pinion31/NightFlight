@@ -111,7 +111,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 // authentication has failed.
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter', { failureRedirect: '/' }), function (req, res) {
-  res.redirect('/search/' + req.user.twitterUser.userName);
+  res.redirect('/#/search/' + req.user.twitterUser.userName);
 });
 
 app.post('/list', function (req, res) {
