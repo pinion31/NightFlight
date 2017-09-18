@@ -24,7 +24,6 @@ const MainContent = () => (
 
 const Footer = () => (
   <div className="footer">
-    <div />
   </div>
 );
 

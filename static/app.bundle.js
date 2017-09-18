@@ -100,11 +100,7 @@ var MainContent = function MainContent() {
 };
 
 var Footer = function Footer() {
-  return _react2.default.createElement(
-    'div',
-    { className: 'footer' },
-    _react2.default.createElement('div', null)
-  );
+  return _react2.default.createElement('div', { className: 'footer' });
 };
 
 var RoutedApp = function RoutedApp() {

@@ -1,5 +1,5 @@
-
-
+const path =  require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -9,11 +9,14 @@ module.exports = {
       'react-router-bootstrap', 'react-router-dom'],
   },
   output: {
-    path: 'C:\\Users\\Chris\\Documents\\WebDev\\NightFlight\\static',
-    filename: 'app.bundle.js',
+    path: path.resolve(__dirname, 'static'),
+    filename: '[name].[chunkhash].js'
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({name: 'vendor', filename: 'vendor.bundle.js'})
+    new webpack.optimize.CommonsChunkPlugin({names: ['vendor', 'manifest']}),
+    new HtmlWebpackPlugin({
+      template: './static/index.html'
+    })
   ],
   devServer: {
     port: 8080,
@@ -43,12 +46,6 @@ module.exports = {
         loader: 'file-loader'
       }
     ],
-  },
-  node: {
-   fs: "empty",
-   console: true,
-   net: 'empty',
-   tls: 'empty'
   },
   resolve: {
     extensions: ['.js', '.jsx', '.scss']
