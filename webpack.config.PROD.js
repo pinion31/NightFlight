@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({names: ['vendor', 'manifest']}),
-    new ExtractTextPlugin('bundle.css'),
+    new ExtractTextPlugin('bundle.[chunkhash].css'),
     new HtmlWebpackPlugin({
       template: './static/index.html'}),
     new webpack.DefinePlugin({
