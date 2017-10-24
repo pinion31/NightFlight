@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -19,8 +20,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './static/index.html'}),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new webpack.optimize.UglifyJsPlugin()
   ],
   devServer: {
     port: 8080,
@@ -46,6 +48,10 @@ module.exports = {
         loaders: ExtractTextPlugin.extract({fallback:'style-loader',
         use:'css-loader!sass-loader'})
       },
+      {
+        test: /\.jpg$/,
+        loader: 'file-loader'
+      }
     ],
   },
   resolve: {

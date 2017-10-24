@@ -78,6 +78,7 @@
     "sass-loader": "^6.0.6",
     "source-map-support": "^0.4.15",
     "style-loader": "^0.18.2",
+    "uglifyjs-webpack-plugin": "^1.0.1",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.6.1",
     "webpack-sass": "^2.2.1"
